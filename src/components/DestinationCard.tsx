@@ -8,9 +8,10 @@ import { cn } from '@/lib/utils';
 interface DestinationCardProps {
   destination: Destination;
   className?: string;
+  style?: React.CSSProperties;
 }
 
-const DestinationCard: React.FC<DestinationCardProps> = ({ destination, className }) => {
+const DestinationCard: React.FC<DestinationCardProps> = ({ destination, className, style }) => {
   return (
     <div 
       className={cn(
@@ -19,6 +20,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
         "bg-white dark:bg-gray-800",
         className
       )}
+      style={style}
     >
       {/* Image Container with Overlay */}
       <div className="aspect-[4/3] w-full overflow-hidden relative">
