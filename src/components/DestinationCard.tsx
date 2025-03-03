@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { Destination, getActivityById } from '@/data/destinations';
-import { MapPin } from 'lucide-react';
+import { MapPin, Heart } from 'lucide-react';
 import ActivityTag from './ActivityTag';
 import { cn } from '@/lib/utils';
 import ImageGallery from './ImageGallery';
@@ -14,9 +14,25 @@ interface DestinationCardProps {
 
 const DestinationCard: React.FC<DestinationCardProps> = ({ destination, className, style }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
+  const [isLiked, setIsLiked] = useState(false);
   
   const openGallery = () => {
     setIsGalleryOpen(true);
+  };
+
+  const toggleLike = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setIsLiked(!isLiked);
+  };
+
+  // Determine gradient based on state name (for visual variety)
+  const getGradient = (stateName: string) => {
+    const firstChar = stateName.charAt(0).toLowerCase();
+    
+    if (firstChar <= 'g') return 'from-pink-500 to-purple-600';
+    if (firstChar <= 'm') return 'from-amber-500 to-pink-500';
+    if (firstChar <= 's') return 'from-blue-500 to-teal-500';
+    return 'from-emerald-500 to-blue-600';
   };
 
   return (
@@ -25,12 +41,25 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
         className={cn(
           "group relative overflow-hidden rounded-xl hover-scale cursor-pointer",
           "transition-all duration-500 ease-out shadow-md hover:shadow-xl",
-          "bg-white dark:bg-gray-800",
+          "bg-gradient-to-br from-white to-gray-50 dark:from-gray-800 dark:to-gray-900",
           className
         )}
         style={style}
         onClick={openGallery}
       >
+        {/* Like Button */}
+        <button 
+          onClick={toggleLike}
+          className="absolute top-3 right-3 z-30 p-2 rounded-full bg-white/80 backdrop-blur-sm shadow-md transition-transform hover:scale-110"
+        >
+          <Heart 
+            className={cn(
+              "h-5 w-5 transition-colors", 
+              isLiked ? "fill-pink-500 text-pink-500" : "text-gray-600"
+            )} 
+          />
+        </button>
+
         {/* Image Container with Overlay */}
         <div className="aspect-[4/3] w-full overflow-hidden relative">
           <img 
@@ -39,18 +68,18 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
             className="w-full h-full object-cover transition duration-700 ease-in-out group-hover:scale-110"
             loading="lazy"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
           
           {/* State Badge */}
-          <div className="absolute top-3 left-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/90 text-gray-800">
-            <MapPin className="mr-1 h-3 w-3 text-primary" />
+          <div className={`absolute top-3 left-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${getGradient(destination.state)} text-white`}>
+            <MapPin className="mr-1 h-3 w-3 text-white" />
             {destination.state}
           </div>
         </div>
         
         {/* Content */}
         <div className="p-4 sm:p-5">
-          <h3 className="text-xl font-bold mb-2 text-balance">{destination.name}</h3>
+          <h3 className="text-xl font-bold mb-2 text-balance bg-gradient-to-br from-gray-800 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">{destination.name}</h3>
           
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
             {destination.description}
@@ -65,10 +94,17 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
               ) : null;
             })}
             {destination.activities.length > 3 && (
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-800 dark:text-purple-300">
                 +{destination.activities.length - 3} more
               </span>
             )}
+          </div>
+
+          {/* View Gallery Button - visible on hover */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/30 backdrop-blur-sm">
+            <span className="px-4 py-2 bg-white/90 dark:bg-black/80 rounded-full text-sm font-semibold text-gray-800 dark:text-white shadow-lg">
+              View Gallery
+            </span>
           </div>
         </div>
       </div>

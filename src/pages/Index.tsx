@@ -25,11 +25,41 @@ const Index: React.FC = () => {
     };
     
     document.addEventListener('click', handleAnchorClick);
-    return () => document.removeEventListener('click', handleAnchorClick);
+    
+    // Add keyboard navigation for gallery
+    const handleKeydown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        const closeButtons = document.querySelectorAll('[aria-label="Close"]');
+        if (closeButtons.length > 0) {
+          (closeButtons[0] as HTMLButtonElement).click();
+        }
+      }
+      
+      if (e.key === 'ArrowRight') {
+        const nextButtons = document.querySelectorAll('[aria-label="Next"]');
+        if (nextButtons.length > 0) {
+          (nextButtons[0] as HTMLButtonElement).click();
+        }
+      }
+      
+      if (e.key === 'ArrowLeft') {
+        const prevButtons = document.querySelectorAll('[aria-label="Previous"]');
+        if (prevButtons.length > 0) {
+          (prevButtons[0] as HTMLButtonElement).click();
+        }
+      }
+    };
+    
+    document.addEventListener('keydown', handleKeydown);
+    
+    return () => {
+      document.removeEventListener('click', handleAnchorClick);
+      document.removeEventListener('keydown', handleKeydown);
+    };
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen bg-white text-gray-900">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-white to-gray-50 text-gray-900 dark:from-gray-900 dark:to-black dark:text-white">
       <Header />
       <main className="flex-grow">
         <Hero />
