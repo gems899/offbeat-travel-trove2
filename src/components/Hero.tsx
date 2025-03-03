@@ -30,7 +30,13 @@ const Hero: React.FC = () => {
         </div>
         
         <h1 className="animate-fade-in opacity-0 text-4xl md:text-5xl lg:text-7xl font-bold text-white max-w-5xl mx-auto text-shadow-lg" style={{ animationDelay: '0.5s', animationFillMode: 'forwards' }}>
-          Explore India's Hidden <span className="text-gradient bg-gradient-to-r from-amber-300 via-yellow-400 to-orange-500">Travel Gems</span>
+          Explore India's Hidden 
+          <span className="relative inline-block ml-2">
+            <span className="relative z-10 text-white bg-gradient-to-r from-rose-400 via-fuchsia-500 to-indigo-500 bg-clip-text text-transparent px-1">Travel</span>
+          </span>
+          <span className="relative inline-block ml-2">
+            <span className="relative z-10 text-white bg-gradient-to-r from-amber-400 via-orange-500 to-rose-500 bg-clip-text text-transparent px-1">Gems</span>
+          </span>
         </h1>
         
         <p className="animate-fade-in opacity-0 mt-6 text-lg md:text-xl text-white/90 max-w-2xl mx-auto text-shadow" style={{ animationDelay: '0.7s', animationFillMode: 'forwards' }}>
