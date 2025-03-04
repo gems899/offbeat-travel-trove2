@@ -1,136 +1,49 @@
-
 import React from 'react';
-import { Globe, Mail, MapPin, Phone, Search, Twitter, Instagram, Facebook } from 'lucide-react';
+import DownloadHelper from './DownloadHelper';
 
 const Footer: React.FC = () => {
-  const currentYear = new Date().getFullYear();
-  
   return (
-    <footer className="bg-gray-900 text-white pt-16 pb-8">
+    <footer className="bg-gray-100 dark:bg-gray-800 py-8 sm:py-12 border-t border-gray-200 dark:border-gray-700">
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        {/* Newsletter */}
-        <div className="max-w-3xl mx-auto bg-primary/10 rounded-2xl p-8 mb-16 backdrop-blur-lg">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-2">Join Our Travel Community</h3>
-            <p className="text-white/80 mb-6">
-              Get monthly updates on new offbeat destinations, travel tips, and exclusive guides
+        <div className="sm:flex sm:items-center sm:justify-between">
+          <div className="mb-4 sm:mb-0">
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Crafted with ❤️ in India
             </p>
-            
-            {/* Subscription Form */}
-            <form className="flex flex-col sm:flex-row gap-3 max-w-lg mx-auto">
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex h-10 w-full rounded-md border border-white/30 bg-white/10 backdrop-blur-sm px-3 py-2 text-sm placeholder:text-white/50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white disabled:cursor-not-allowed disabled:opacity-50"
-                required
-              />
-              <button
-                type="submit"
-                className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-white text-primary shadow hover:bg-white/90 h-10 px-4 py-2"
-              >
-                Subscribe
-              </button>
-            </form>
+          </div>
+          <div className="flex space-x-4 justify-center sm:justify-start">
+            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="h-5 w-5">
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.268-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.205.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.354 0-3.749.013-5.031.078-3.065.14-4.878 1.952-5.019 5.02-.064 1.282-.077 1.777-.077 5.02 0 3.244.013 3.739.077 5.02.141 3.065 1.951 4.878 5.02 5.019 1.282.065 1.777.077 5.02.077 3.244 0 3.739-.013 5.02-.077 3.065-.141 4.878-1.952 5.019-5.02.064-1.282.077-1.777.077-5.02 0-3.244-.013-3.739-.077-5.02-.141-3.065-1.951-4.878-5.02-5.019-1.282-.065-1.777-.077-5.02-.077z"></path>
+                <path d="M12 5.813c-3.197 0-5.783 2.585-5.783 5.783 0 3.197 2.586 5.783 5.783 5.783 3.196 0 5.783-2.586 5.783-5.783 0-3.198-2.587-5.783-5.783-5.783zm0 9.583a3.8 3.8 0 1 1 0-7.6 3.8 3.8 0 0 1 0 7.6z"></path>
+                <path d="M19.784 4.557a1.096 1.096 0 0 1-1.548 0l-.007-.007c-.428-.428-.913-.688-1.44-.746 1.184-.893 2.476-1.482 3.86-1.482 3.354 0 3.749.013 5.031.078 3.065.14 4.878 1.952 5.019 5.02.064 1.282.077 1.777.077 5.02 0 3.244-.013 3.739-.077 5.02-.141 3.065-1.952 4.878-5.02 5.019-1.282.065-1.777.077-5.02.077-1.383 0-2.676-.589-3.86-1.482.527-.058 1.012-.318 1.44-.746l.007-.007a1.096 1.096 0 0 1 0-1.548l-.007-.007c-.428-.428-.913-.688-1.44-.746 1.184-.893 2.476-1.482 3.86-1.482 3.354 0 3.749.013 5.031.078 3.065.14 4.878 1.952 5.019 5.02.064 1.282.077 1.777.077 5.02 0 3.244-.013 3.739-.077 5.02-.141 3.065-1.952 4.878-5.02 5.019-1.282.065-1.777.077-5.02.077-1.383 0-2.676-.589-3.86-1.482.527-.058 1.012-.318 1.44-.746l.007-.007a1.096 1.096 0 0 1 0-1.548l-.007-.007c-.428-.428-.913-.688-1.44-.746 1.184-.893 2.476-1.482 3.86-1.482 3.354 0 3.749.013 5.031.078 3.065.14 4.878 1.952 5.019 5.02.064 1.282.077 1.777.077 5.02 0 3.244-.013 3.739-.077 5.02-.141 3.065-1.952 4.878-5.02 5.019-1.282.065-1.777.077-5.02.077-1.383 0-2.676-.589-3.86-1.482.527-.058 1.012-.318 1.44-.746l.007-.007a1.096 1.096 0 0 1 0-1.548z"></path>
+              </svg>
+            </a>
+            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="h-5 w-5">
+                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.74.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 7.69 5.34 6.13 3.23 4.21c-.37.63-.58 1.35-.58 2.12 0 1.48.75 2.79 1.91 3.56-.71-.02-1.39-.22-2-.58v.05c0 2.07 1.44 3.8 3.35 4.19-.61.17-1.27.26-1.94.26-.28 0-.55-.03-.81-.08.56 1.72 2.2 2.98 4.1 3.02-1.43 1.11-3.21 1.72-5.18 1.72-.34 0-.68-.02-1.02-.06 1.98 1.28 4.32 2.04 6.83 2.04C3.95 21.99 6.22 22 8.76 22c10.6 0 16.35-8.73 16.35-16.29 0-.24-.02-.48-.04-.73.9-.65 1.7-1.47 2.32-2.41z"></path>
+              </svg>
+            </a>
+            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
+              <svg fill="currentColor" viewBox="0 0 24 24" className="h-5 w-5">
+                <path d="M20.947 8.31a4.79 4.79 0 0 0-.44-.98c-.54-.94-1.25-1.71-2.12-2.3-.62-.41-1.33-.73-2.15-.91-.61-.13-1.23-.2-1.88-.22h-.02C13.53 4 13 4.54 13 5.31v.7c0 1.53.04 2.79.08 3.72.01.22.02.43.02.63 0 .2-.01.41-.02.63-.04.93-.08 2.2-.08 3.72v.72c0 .77.53 1.31 1.3 1.31.65 0 1.27-.07 1.88-.2h.02c.82-.18 1.53-.5 2.15-.91.87-.59 1.58-1.36 2.12-2.3.32-.56.4-.74.44-.98.07-.14.12-.31.15-.5.03-.2.04-.4.04-.6v-.02c0-.21-.01-.41-.04-.6-.03-.19-.08-.36-.15-.5zm-1.18 7.1c-.02.19-.03.4-.03.6v.6c0 .49-.39.88-.88.88h-.02c-.49 0-.88-.39-.88-.88v-.6c0-.2 0-.41.03-.6.03-.19.07-.36.14-.53.37-.84.96-1.43 1.81-1.81.17-.07.34-.11.53-.14.19-.02.4-.03.6-.03h.6c.2 0 .41.01.6.03.19.03.36.07.53.14.85.38 1.44.97 1.81 1.81.07.17.11.34.14.53zm-3.44-6.15c.02-.19.03-.4.03-.6v-.6c0-.49.39-.88.88-.88h.02c.49 0 .88.39.88.88v.6c0 .2 0 .41-.03.6-.03.19-.07.36-.14.53-.37.84-.96 1.43-1.81 1.81-.17.07-.34.11-.53.14-.19.02-.4.03-.6.03h-.6c-.2 0-.41-.01-.6-.03-.19-.03-.36-.07-.53-.14-.85-.38-1.44-.97-1.81-1.81-.07-.17-.11-.34-.14-.53zm4.59 4.15a4.15 4.15 0 1 1-8.3 0 4.15 4.15 0 0 1 8.3 0z"></path>
+              </svg>
+            </a>
           </div>
         </div>
         
-        {/* Main Footer */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
-          {/* Brand Column */}
-          <div className="md:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <Globe className="h-6 w-6 text-primary" />
-              <span className="font-display text-xl font-medium">Offbeat Travel</span>
-            </div>
-            <p className="text-gray-400 mb-6">
-              Discover India's hidden gems and create unforgettable memories off the beaten path.
-            </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
-                <Twitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
-                <Instagram className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-400 hover:text-primary transition-colors">
-                <Facebook className="h-5 w-5" />
-              </a>
-            </div>
-          </div>
-          
-          {/* Quick Links */}
-          <div>
-            <h4 className="font-bold text-lg mb-4">Explore</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="#destinations" className="text-gray-400 hover:text-primary transition-colors">Destinations</a>
-              </li>
-              <li>
-                <a href="#exploration" className="text-gray-400 hover:text-primary transition-colors">Travel Philosophy</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-primary transition-colors">Travel Guides</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-primary transition-colors">Photography Tips</a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Popular States */}
-          <div>
-            <h4 className="font-bold text-lg mb-4">Popular States</h4>
-            <ul className="space-y-2">
-              <li>
-                <a href="#" className="text-gray-400 hover:text-primary transition-colors">Uttarakhand</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-primary transition-colors">Himachal Pradesh</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-primary transition-colors">Arunachal Pradesh</a>
-              </li>
-              <li>
-                <a href="#" className="text-gray-400 hover:text-primary transition-colors">Nagaland</a>
-              </li>
-            </ul>
-          </div>
-          
-          {/* Contact */}
-          <div>
-            <h4 className="font-bold text-lg mb-4">Contact Us</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start">
-                <MapPin className="h-5 w-5 text-primary mr-2 mt-0.5" />
-                <span className="text-gray-400">123 Adventure Lane, Explorer's Hub, India</span>
-              </li>
-              <li className="flex items-center">
-                <Mail className="h-5 w-5 text-primary mr-2" />
-                <a href="mailto:hello@offbeattravel.com" className="text-gray-400 hover:text-primary transition-colors">
-                  hello@offbeattravel.com
-                </a>
-              </li>
-              <li className="flex items-center">
-                <Phone className="h-5 w-5 text-primary mr-2" />
-                <a href="tel:+919876543210" className="text-gray-400 hover:text-primary transition-colors">
-                  +91 9876 543 210
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        
-        {/* Copyright */}
-        <div className="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-500 text-sm mb-4 md:mb-0">
-            &copy; {currentYear} Offbeat Travel. All rights reserved.
+        {/* Add the Download Helper button */}
+        <div className="mt-8 text-center">
+          <DownloadHelper />
+          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
+            Want to run this website on your local machine? Click the button above for instructions.
           </p>
-          
-          <div className="flex flex-wrap gap-4 justify-center">
-            <a href="#" className="text-sm text-gray-500 hover:text-gray-400">Privacy Policy</a>
-            <a href="#" className="text-sm text-gray-500 hover:text-gray-400">Terms of Service</a>
-            <a href="#" className="text-sm text-gray-500 hover:text-gray-400">Cookie Policy</a>
-          </div>
+        </div>
+        
+        <div className="mt-8 text-center">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            © {new Date().getFullYear()} Offbeat Travel Trove. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

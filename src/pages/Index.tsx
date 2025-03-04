@@ -1,12 +1,26 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import StateGrid from '@/components/StateGrid';
 import Exploration from '@/components/Exploration';
 import Footer from '@/components/Footer';
+import { Info, X } from 'lucide-react';
+import { toast } from 'sonner';
+import { Button } from '@/components/ui/button';
 
 const Index: React.FC = () => {
+  const [showTip, setShowTip] = useState(false);
+
+  // Show tips about downloading after a delay
+  useEffect(() => {
+    const tipTimer = setTimeout(() => {
+      setShowTip(true);
+    }, 5000);
+
+    return () => clearTimeout(tipTimer);
+  }, []);
+
   // Add smooth scrolling for anchor links
   useEffect(() => {
     const handleAnchorClick = (e: MouseEvent) => {
@@ -51,6 +65,14 @@ const Index: React.FC = () => {
     };
     
     document.addEventListener('keydown', handleKeydown);
+
+    // Show welcome toast
+    setTimeout(() => {
+      toast.success("Welcome to Offbeat Travel Trove!", {
+        description: "Discover hidden gems across India's diverse states and territories.",
+        duration: 5000,
+      });
+    }, 1000);
     
     return () => {
       document.removeEventListener('click', handleAnchorClick);
@@ -58,13 +80,77 @@ const Index: React.FC = () => {
     };
   }, []);
 
+  // Create a function to explain how to download the code
+  const handleDownloadInfo = () => {
+    toast.info(
+      "How to run this website locally:",
+      {
+        duration: 10000,
+        description: (
+          <div className="space-y-2 text-sm">
+            <p>1. Clone the repository from GitHub</p>
+            <p>2. Install dependencies with <code className="bg-gray-100 px-1 rounded">npm install</code></p>
+            <p>3. Start the dev server with <code className="bg-gray-100 px-1 rounded">npm run dev</code></p>
+            <p>Full instructions are in the README.md file</p>
+          </div>
+        ),
+        action: {
+          label: "Dismiss",
+          onClick: () => {}
+        }
+      }
+    );
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-white to-gray-50 text-gray-900 dark:from-gray-900 dark:to-black dark:text-white">
       <Header />
-      <main className="flex-grow">
+      <main className="flex-grow relative">
         <Hero />
         <StateGrid />
         <Exploration />
+        
+        {/* Download tip notification */}
+        {showTip && (
+          <div className="fixed bottom-4 right-4 max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50 animate-fade-in">
+            <div className="flex items-start">
+              <div className="flex-shrink-0">
+                <Info className="h-5 w-5 text-blue-500" />
+              </div>
+              <div className="ml-3 w-0 flex-1">
+                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                  Want to download this website?
+                </p>
+                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                  You can get the code from GitHub or click the button in the States section.
+                </p>
+                <div className="mt-3 flex space-x-2">
+                  <Button
+                    variant="default"
+                    size="sm"
+                    onClick={handleDownloadInfo}
+                  >
+                    Learn How
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowTip(false)}
+                  >
+                    Dismiss
+                  </Button>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="ml-4 flex-shrink-0 flex text-gray-400 hover:text-gray-500"
+                onClick={() => setShowTip(false)}
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+          </div>
+        )}
       </main>
       <Footer />
     </div>
