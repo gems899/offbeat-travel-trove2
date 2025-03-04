@@ -85,7 +85,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
       console.error("Download failed:", error);
       toast("Failed to download image", {
         position: "bottom-center",
-        variant: "destructive",
+        // Remove the 'variant' property as it's not supported in the ExternalToast type
         duration: 3000,
       });
     }
