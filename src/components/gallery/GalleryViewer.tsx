@@ -38,7 +38,7 @@ const GalleryViewer: React.FC<GalleryViewerProps> = ({
         <img 
           src={allImages[currentImageIndex]} 
           alt={`${destination.name} - Image ${currentImageIndex + 1}`}
-          className={`max-h-[70vh] max-w-full object-contain mx-auto transition-opacity duration-300 ${showInfo ? 'opacity-40' : 'opacity-100'}`}
+          className="max-h-[70vh] max-w-full object-contain mx-auto transition-opacity duration-300"
           onError={(e) => {
             const target = e.target as HTMLImageElement;
             target.onerror = null;
@@ -46,17 +46,6 @@ const GalleryViewer: React.FC<GalleryViewerProps> = ({
           }}
         />
       </div>
-      
-      {/* Info overlay - Always show description with improved styling */}
-      {showInfo && (
-        <div className="absolute inset-0 z-20 flex items-center justify-center">
-          <div className="bg-black/70 p-6 rounded-lg max-w-md text-white backdrop-blur-sm animate-fade-in">
-            <h3 className="text-xl font-semibold mb-2">{destination.name}</h3>
-            <p className="mb-4 text-sm italic">{destination.state}</p>
-            <p className="text-white/90">{destination.description}</p>
-          </div>
-        </div>
-      )}
       
       {/* Navigation Arrows */}
       {allImages.length > 1 && (

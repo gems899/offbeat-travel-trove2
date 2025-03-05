@@ -43,10 +43,15 @@ const GalleryFooter: React.FC<GalleryFooterProps> = ({
 
   return (
     <div className={`w-full p-5 bg-gradient-to-r ${getGradient(destination.state)} text-white`}>
-      <div className="flex justify-between items-start mb-4">
-        <div>
+      <div className="flex flex-col sm:flex-row justify-between items-start mb-4">
+        <div className="mb-3 sm:mb-0 max-w-2xl">
           <h2 className="text-2xl font-semibold mb-1">{destination.name}</h2>
-          <p className="text-white/80 text-sm">{destination.state}</p>
+          <p className="text-white/80 text-sm mb-2">{destination.state}</p>
+          {showInfo && (
+            <p className="text-white/90 text-sm leading-relaxed border-l-2 border-white/30 pl-3 mb-3">
+              {destination.description}
+            </p>
+          )}
         </div>
         <GalleryControls 
           isLiked={isLiked}

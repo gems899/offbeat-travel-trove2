@@ -76,6 +76,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   const toggleInfo = (e: React.MouseEvent) => {
     e.stopPropagation();
     setShowInfo(!showInfo);
+    toast(showInfo ? "Description hidden" : "Description shown", {
+      position: "bottom-center",
+      duration: 1500,
+    });
   };
 
   const toggleZoom = (e: React.MouseEvent) => {
