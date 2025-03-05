@@ -5,12 +5,14 @@ import Hero from '@/components/Hero';
 import StateGrid from '@/components/StateGrid';
 import Exploration from '@/components/Exploration';
 import Footer from '@/components/Footer';
-import { Info, X } from 'lucide-react';
+import { Info, X, ArrowUp } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const Index: React.FC = () => {
   const [showTip, setShowTip] = useState(false);
+  const [showScrollTop, setShowScrollTop] = useState(false);
 
   // Show tips about downloading after a delay
   useEffect(() => {
@@ -19,6 +21,20 @@ const Index: React.FC = () => {
     }, 5000);
 
     return () => clearTimeout(tipTimer);
+  }, []);
+
+  // Handle scroll events for "back to top" button
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   // Preload important images
@@ -124,6 +140,13 @@ const Index: React.FC = () => {
     );
   };
 
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gradient-to-br from-white to-gray-50 text-gray-900 dark:from-gray-900 dark:to-black dark:text-white">
       <Header />
@@ -133,46 +156,71 @@ const Index: React.FC = () => {
         <Exploration />
         
         {/* Download tip notification */}
-        {showTip && (
-          <div className="fixed bottom-4 right-4 max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50 animate-fade-in">
-            <div className="flex items-start">
-              <div className="flex-shrink-0">
-                <Info className="h-5 w-5 text-blue-500" />
-              </div>
-              <div className="ml-3 w-0 flex-1">
-                <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Want to download this website?
-                </p>
-                <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  You can get the code from GitHub or click the button in the States section.
-                </p>
-                <div className="mt-3 flex space-x-2">
-                  <Button
-                    variant="default"
-                    size="sm"
-                    onClick={handleDownloadInfo}
-                  >
-                    Learn How
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowTip(false)}
-                  >
-                    Dismiss
-                  </Button>
+        <AnimatePresence>
+          {showTip && (
+            <motion.div 
+              className="fixed bottom-4 right-4 max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50"
+              initial={{ opacity: 0, y: 20, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+            >
+              <div className="flex items-start">
+                <div className="flex-shrink-0">
+                  <Info className="h-5 w-5 text-blue-500" />
                 </div>
+                <div className="ml-3 w-0 flex-1">
+                  <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                    Want to download this website?
+                  </p>
+                  <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
+                    You can get the code from GitHub or click the button in the States section.
+                  </p>
+                  <div className="mt-3 flex space-x-2">
+                    <Button
+                      variant="default"
+                      size="sm"
+                      onClick={handleDownloadInfo}
+                    >
+                      Learn How
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowTip(false)}
+                    >
+                      Dismiss
+                    </Button>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  className="ml-4 flex-shrink-0 flex text-gray-400 hover:text-gray-500"
+                  onClick={() => setShowTip(false)}
+                >
+                  <X className="h-5 w-5" />
+                </button>
               </div>
-              <button
-                type="button"
-                className="ml-4 flex-shrink-0 flex text-gray-400 hover:text-gray-500"
-                onClick={() => setShowTip(false)}
-              >
-                <X className="h-5 w-5" />
-              </button>
-            </div>
-          </div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+        
+        {/* Scroll to top button */}
+        <AnimatePresence>
+          {showScrollTop && (
+            <motion.button
+              className="fixed bottom-4 left-4 p-3 rounded-full bg-primary shadow-lg text-white z-50"
+              onClick={scrollToTop}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+            >
+              <ArrowUp className="h-5 w-5" />
+            </motion.button>
+          )}
+        </AnimatePresence>
       </main>
       <Footer />
     </div>
