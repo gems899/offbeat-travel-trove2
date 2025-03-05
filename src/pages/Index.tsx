@@ -21,6 +21,36 @@ const Index: React.FC = () => {
     return () => clearTimeout(tipTimer);
   }, []);
 
+  // Preload important images
+  useEffect(() => {
+    // List of important images to preload
+    const imageUrls = [
+      '/images/mechuka1.jpg',
+      '/images/mechuka2.jpg',
+      '/images/mechuka3.jpg',
+      '/images/anini1.jpg',
+      '/images/anini2.jpg',
+      '/images/sangti1.jpg',
+      '/images/mayodia1.jpg',
+      '/images/namsai1.jpg',
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80', // Fallback image
+    ];
+
+    // Preload images
+    imageUrls.forEach(url => {
+      const img = new Image();
+      img.src = url;
+    });
+
+    // Show welcome toast with delay
+    setTimeout(() => {
+      toast.success("Welcome to Offbeat Travel Trove!", {
+        description: "Discover hidden gems across India's diverse states and territories.",
+        duration: 5000,
+      });
+    }, 1000);
+  }, []);
+
   // Add smooth scrolling for anchor links
   useEffect(() => {
     const handleAnchorClick = (e: MouseEvent) => {
@@ -65,14 +95,6 @@ const Index: React.FC = () => {
     };
     
     document.addEventListener('keydown', handleKeydown);
-
-    // Show welcome toast
-    setTimeout(() => {
-      toast.success("Welcome to Offbeat Travel Trove!", {
-        description: "Discover hidden gems across India's diverse states and territories.",
-        duration: 5000,
-      });
-    }, 1000);
     
     return () => {
       document.removeEventListener('click', handleAnchorClick);

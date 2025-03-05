@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Destination } from '@/data/destinations';
 import { X } from 'lucide-react';
 import { toast } from "sonner";
@@ -16,15 +16,40 @@ interface ImageGalleryProps {
 const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClose }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
-  const [showInfo, setShowInfo] = useState(false);
+  const [showInfo, setShowInfo] = useState(true); // Show info by default
   const [isZoomed, setIsZoomed] = useState(false);
-  const allImages = destination ? [destination.image, ...(destination.galleryImages || [])] : [];
+  const [allImages, setAllImages] = useState<string[]>([]);
+  
+  // Set up images and handle error fallbacks
+  useEffect(() => {
+    if (destination) {
+      // Default fallback image if all images fail to load
+      const fallbackImage = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80';
+      
+      // Create image array with main image first, then gallery images
+      const images = [
+        destination.image || fallbackImage,
+        ...(destination.galleryImages || [])
+      ];
+      
+      // For each image, preload to test if it works
+      const preloadedImages = images.map(src => {
+        // If src is empty or invalid, use fallback
+        if (!src || src.includes('undefined') || src === "") {
+          return fallbackImage;
+        }
+        return src;
+      });
+      
+      setAllImages(preloadedImages);
+    }
+  }, [destination]);
   
   // Reset current image index when modal opens
   useEffect(() => {
     if (isOpen) {
       setCurrentImageIndex(0);
-      setShowInfo(false);
+      setShowInfo(true); // Show info by default
       setIsZoomed(false);
     }
   }, [isOpen, destination]);
@@ -87,7 +112,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
       console.error("Download failed:", error);
       toast("Failed to download image", {
         position: "bottom-center",
-        // Remove the 'variant' property as it's not supported in the ExternalToast type
         duration: 3000,
       });
     }
@@ -97,10 +121,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl p-0 overflow-hidden bg-gradient-to-br from-gray-900 to-black border-none" aria-labelledby="gallery-title">
-        <DialogTitle id="gallery-title" className="sr-only">
-          {destination.name} Image Gallery
-        </DialogTitle>
+      <DialogContent className="sm:max-w-5xl p-0 overflow-hidden bg-gradient-to-br from-gray-900 to-black border-none">
+        <DialogTitle className="sr-only">{destination.name} Image Gallery</DialogTitle>
+        <DialogDescription className="sr-only">
+          View images of {destination.name} in {destination.state}
+        </DialogDescription>
         
         <button 
           onClick={onClose}

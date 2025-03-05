@@ -47,7 +47,7 @@ const GalleryViewer: React.FC<GalleryViewerProps> = ({
         />
       </div>
       
-      {/* Info overlay */}
+      {/* Info overlay - Always show description with improved styling */}
       {showInfo && (
         <div className="absolute inset-0 z-20 flex items-center justify-center">
           <div className="bg-black/70 p-6 rounded-lg max-w-md text-white backdrop-blur-sm animate-fade-in">

@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Destination, getActivityById } from '@/data/destinations';
 import { MapPin, Heart } from 'lucide-react';
 import ActivityTag from './ActivityTag';
@@ -15,6 +15,19 @@ interface DestinationCardProps {
 const DestinationCard: React.FC<DestinationCardProps> = ({ destination, className, style }) => {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [isLiked, setIsLiked] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageSrc, setImageSrc] = useState(destination.image);
+  
+  // Handle image loading and fallbacks
+  useEffect(() => {
+    const img = new Image();
+    img.onload = () => setImageLoaded(true);
+    img.onerror = () => {
+      // If image fails to load, try a fallback
+      setImageSrc('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80');
+    };
+    img.src = destination.image;
+  }, [destination.image]);
   
   const openGallery = () => {
     setIsGalleryOpen(true);
@@ -63,10 +76,15 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
         {/* Image Container with Overlay */}
         <div className="aspect-[4/3] w-full overflow-hidden relative">
           <img 
-            src={destination.image} 
+            src={imageSrc} 
             alt={destination.name}
             className="w-full h-full object-cover transition duration-700 ease-in-out group-hover:scale-110"
             loading="lazy"
+            onError={(e) => {
+              const target = e.target as HTMLImageElement;
+              target.onerror = null;
+              target.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80';
+            }}
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
           
