@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import StateGrid from '@/components/StateGrid';
 import Exploration from '@/components/Exploration';
+import WeatherForecast from '@/components/WeatherForecast';
 import Footer from '@/components/Footer';
 import { Info, X } from 'lucide-react';
 import { toast } from 'sonner';
@@ -130,6 +131,7 @@ const Index: React.FC = () => {
       <main className="flex-grow relative">
         <Hero />
         <StateGrid />
+        <WeatherForecast />
         <Exploration />
         
         {/* Download tip notification */}

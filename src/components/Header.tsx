@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { MapPin, Globe, Menu, X } from 'lucide-react';
+import { MapPin, Globe, Menu, X, Compass } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const Header: React.FC = () => {
@@ -36,11 +36,12 @@ const Header: React.FC = () => {
         
         {/* Desktop Menu */}
         <nav className="hidden md:flex items-center space-x-8">
-          <a href="#destinations" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
-            Destinations
-          </a>
           <a href="#exploration" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            <Compass className="mr-2 h-4 w-4 inline" />
             Exploration
+          </a>
+          <a href="#weather" className="text-sm font-medium text-foreground/80 hover:text-primary transition-colors">
+            Weather Forecast
           </a>
           <a 
             href="#destinations" 
@@ -66,18 +67,19 @@ const Header: React.FC = () => {
         <div className="container mt-4 pb-4 md:hidden">
           <nav className="flex flex-col space-y-4">
             <a 
-              href="#destinations" 
-              className="text-sm font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors"
-              onClick={() => setIsMobileMenuOpen(false)}
-            >
-              Destinations
-            </a>
-            <a 
               href="#exploration" 
               className="text-sm font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors"
               onClick={() => setIsMobileMenuOpen(false)}
             >
+              <Compass className="mr-2 h-4 w-4 inline" />
               Exploration
+            </a>
+            <a 
+              href="#weather" 
+              className="text-sm font-medium px-2 py-2 rounded-md hover:bg-accent transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              Weather Forecast
             </a>
             <a 
               href="#destinations" 
