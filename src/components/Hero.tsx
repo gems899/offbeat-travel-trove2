@@ -1,18 +1,45 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronDown } from 'lucide-react';
 
 const Hero: React.FC = () => {
+  const [currentBgIndex, setCurrentBgIndex] = useState(0);
+  
+  // Array of background images to rotate through
+  const backgroundImages = [
+    'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&q=80',
+    'https://images.unsplash.com/photo-1526772662000-3f88f10405ff?ixlib=rb-1.2.1&auto=format&fit=crop&q=80',
+    '/images/mechuka1.jpg',
+    '/images/anini1.jpg',
+    '/images/sangti1.jpg'
+  ];
+  
+  // Change background image every 8 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBgIndex(prevIndex => 
+        prevIndex === backgroundImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 8000);
+    
+    return () => clearInterval(interval);
+  }, []);
+  
   return (
     <section className="relative h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
+      {/* Background Images with Overlay */}
       <div className="absolute inset-0 z-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center"
-          style={{
-            backgroundImage: `url('https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&q=80')`,
-          }}
-        />
+        {backgroundImages.map((image, index) => (
+          <div
+            key={index}
+            className={`absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ${
+              index === currentBgIndex ? 'opacity-100' : 'opacity-0'
+            }`}
+            style={{
+              backgroundImage: `url('${image}')`,
+            }}
+          />
+        ))}
         <div className="absolute inset-0 bg-gradient-to-b from-purple-900/60 via-indigo-800/40 to-blue-900/70" />
       </div>
 
@@ -50,6 +77,20 @@ const Hero: React.FC = () => {
           >
             Discover Places
           </a>
+        </div>
+        
+        {/* Location indicators */}
+        <div className="hidden md:flex absolute bottom-28 left-10 gap-3">
+          {backgroundImages.map((_, index) => (
+            <button
+              key={index}
+              className={`w-3 h-3 rounded-full transition-all ${
+                index === currentBgIndex ? 'bg-white scale-125' : 'bg-white/40'
+              }`}
+              onClick={() => setCurrentBgIndex(index)}
+              aria-label={`View background ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
 
