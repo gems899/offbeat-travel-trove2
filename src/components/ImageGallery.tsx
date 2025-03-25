@@ -38,8 +38,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   const [showTrainInfo, setShowTrainInfo] = useState(false);
   const [showHotelInfo, setShowHotelInfo] = useState(false);
   
-  // Dummy train data from Delhi
+  // Comprehensive train data from Delhi for all destinations
   const trainData: Record<string, TrainInfo[]> = {
+    // Arunachal Pradesh destinations
     "Mechuka": [
       { name: "Dibrugarh Rajdhani Express", departureTime: "16:10", arrivalTime: "Next day 10:30", duration: "18h 20m", price: "₹1,950 - ₹3,500", availability: "Available" },
       { name: "Northeast Express", departureTime: "19:40", arrivalTime: "Next day 15:20", duration: "19h 40m", price: "₹1,200 - ₹2,800", availability: "Available" },
@@ -53,10 +54,61 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
       { name: "Shatabdi Express to Guwahati", departureTime: "06:15", arrivalTime: "14:45", duration: "8h 30m", price: "₹1,200 - ₹2,100", availability: "Available" },
       { name: "Northeast Express", departureTime: "19:40", arrivalTime: "Next day 12:20", duration: "16h 40m", price: "₹1,300 - ₹2,400", availability: "Available" }
     ],
+    "MayoDia": [
+      { name: "Dibrugarh Rajdhani Express", departureTime: "16:10", arrivalTime: "Next day 09:50", duration: "17h 40m", price: "₹1,900 - ₹3,400", availability: "Available" },
+      { name: "Northeast Express", departureTime: "19:40", arrivalTime: "Next day 14:30", duration: "18h 50m", price: "₹1,350 - ₹2,600", availability: "Limited" }
+    ],
+    "Namsai": [
+      { name: "Arunachal Pradesh Express", departureTime: "07:50", arrivalTime: "Next day 05:30", duration: "21h 40m", price: "₹1,150 - ₹2,500", availability: "Available" },
+      { name: "Dibrugarh Rajdhani Express", departureTime: "16:10", arrivalTime: "Next day 11:00", duration: "18h 50m", price: "₹1,900 - ₹3,300", availability: "Available" }
+    ],
+
+    // Uttarakhand destinations
+    "Valley of Flowers": [
+      { name: "Dehradun Shatabdi Express", departureTime: "06:45", arrivalTime: "12:55", duration: "6h 10m", price: "₹800 - ₹1,500", availability: "Available" },
+      { name: "Mussoorie Express", departureTime: "21:35", arrivalTime: "Next day 05:05", duration: "7h 30m", price: "₹650 - ₹1,200", availability: "Available" }
+    ],
+
+    // Assam destinations
+    "Majuli Island": [
+      { name: "Rajdhani Express to Guwahati", departureTime: "16:10", arrivalTime: "Next day 11:30", duration: "19h 20m", price: "₹1,850 - ₹3,300", availability: "Available" },
+      { name: "Northeast Express", departureTime: "19:40", arrivalTime: "Next day 15:10", duration: "19h 30m", price: "₹1,250 - ₹2,600", availability: "Limited" }
+    ],
+
+    // Himachal Pradesh destinations
+    "Spiti Valley": [
+      { name: "Kalka Shatabdi Express", departureTime: "07:40", arrivalTime: "11:45", duration: "4h 05m", price: "₹750 - ₹1,300", availability: "Available" },
+      { name: "Himalayan Queen", departureTime: "12:10", arrivalTime: "19:20", duration: "7h 10m", price: "₹550 - ₹900", availability: "Available" }
+    ],
+
+    // Gujarat destinations
+    "Dholavira": [
+      { name: "Gujarat Express", departureTime: "22:40", arrivalTime: "Next day 13:15", duration: "14h 35m", price: "₹850 - ₹1,800", availability: "Available" },
+      { name: "Ahmedabad Rajdhani", departureTime: "19:55", arrivalTime: "Next day 05:45", duration: "9h 50m", price: "₹1,350 - ₹2,500", availability: "Limited" }
+    ],
+
+    // Nagaland destinations
+    "Khonoma": [
+      { name: "Dibrugarh Rajdhani Express", departureTime: "16:10", arrivalTime: "Next day 10:30", duration: "18h 20m", price: "₹1,950 - ₹3,400", availability: "Available" },
+      { name: "Northeast Express", departureTime: "19:40", arrivalTime: "Next day 16:10", duration: "20h 30m", price: "₹1,250 - ₹2,700", availability: "Limited" }
+    ],
+
+    // West Bengal destinations
+    "Sandakphu": [
+      { name: "Darjeeling Mail", departureTime: "22:05", arrivalTime: "Next day 13:00", duration: "14h 55m", price: "₹850 - ₹1,700", availability: "Available" },
+      { name: "Kolkata Rajdhani", departureTime: "16:55", arrivalTime: "Next day 10:10", duration: "17h 15m", price: "₹1,450 - ₹2,700", availability: "Available" }
+    ],
+
+    // Andhra Pradesh destinations
+    "Gandikota": [
+      { name: "AP Express", departureTime: "06:45", arrivalTime: "Next day 09:15", duration: "26h 30m", price: "₹950 - ₹2,100", availability: "Available" },
+      { name: "Bangalore Rajdhani", departureTime: "20:15", arrivalTime: "Next day 06:35", duration: "10h 20m", price: "₹1,550 - ₹2,900", availability: "Limited" }
+    ]
   };
 
-  // Dummy hotel data
+  // Comprehensive hotel data for all destinations
   const hotelData: Record<string, HotelInfo[]> = {
+    // Arunachal Pradesh destinations
     "Mechuka": [
       { name: "Mountain View Resort", type: "Resort", priceRange: "₹2,500 - ₹4,500/night", rating: 4.5, amenities: ["Free WiFi", "Restaurant", "Mountain Views"] },
       { name: "Mechuka Homestay", type: "Homestay", priceRange: "₹1,200 - ₹1,800/night", rating: 4.3, amenities: ["Traditional Meals", "Local Guide", "Cultural Experience"] },
@@ -73,6 +125,65 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
       { name: "Sangti River Lodge", type: "Lodge", priceRange: "₹2,000 - ₹3,500/night", rating: 4.4, amenities: ["River Access", "Bonfire", "Wildlife Tours"] },
       { name: "Mountain Heritage Homestay", type: "Homestay", priceRange: "₹1,800 - ₹2,500/night", rating: 4.5, amenities: ["Organic Food", "Cultural Experience", "Guided Walks"] }
     ],
+    "MayoDia": [
+      { name: "Snow View Resort", type: "Resort", priceRange: "₹2,800 - ₹4,800/night", rating: 4.4, amenities: ["Panoramic Views", "Heated Rooms", "Adventure Tours"] },
+      { name: "MayoDia Alpine Lodge", type: "Lodge", priceRange: "₹2,200 - ₹3,800/night", rating: 4.3, amenities: ["Mountain View", "Trekking Gear", "Hot Meals"] },
+      { name: "Himalayan Homestay", type: "Homestay", priceRange: "₹1,500 - ₹2,500/night", rating: 4.2, amenities: ["Local Food", "Cultural Experience", "Guided Tours"] }
+    ],
+    "Namsai": [
+      { name: "Golden Pagoda Resort", type: "Resort", priceRange: "₹2,500 - ₹4,000/night", rating: 4.7, amenities: ["Temple View", "Restaurant", "Cultural Tours"] },
+      { name: "Namsai Heritage Hotel", type: "Hotel", priceRange: "₹1,800 - ₹3,200/night", rating: 4.4, amenities: ["Free WiFi", "Restaurant", "Guided Tours"] },
+      { name: "Buddha's Garden Stay", type: "Homestay", priceRange: "₹1,200 - ₹2,000/night", rating: 4.3, amenities: ["Garden", "Local Cuisine", "Monastery Visits"] }
+    ],
+
+    // Uttarakhand destinations
+    "Valley of Flowers": [
+      { name: "Alpine Meadows Resort", type: "Resort", priceRange: "₹3,500 - ₹6,000/night", rating: 4.8, amenities: ["Mountain Views", "Guided Treks", "Restaurant"] },
+      { name: "Flower Valley Lodge", type: "Lodge", priceRange: "₹2,200 - ₹4,000/night", rating: 4.5, amenities: ["Trekking Equipment", "Packed Lunches", "Valley Views"] },
+      { name: "Mountain Explorer Homestay", type: "Homestay", priceRange: "₹1,500 - ₹2,800/night", rating: 4.2, amenities: ["Home Cooked Food", "Local Guide", "Photography Tips"] }
+    ],
+
+    // Assam destinations
+    "Majuli Island": [
+      { name: "River Island Resort", type: "Resort", priceRange: "₹2,800 - ₹4,500/night", rating: 4.6, amenities: ["River View", "Cultural Shows", "Local Cuisine"] },
+      { name: "Satras Heritage Stay", type: "Homestay", priceRange: "₹1,200 - ₹2,500/night", rating: 4.4, amenities: ["Cultural Experience", "Traditional Food", "Mask Making Workshops"] },
+      { name: "Brahmaputra View Hotel", type: "Hotel", priceRange: "₹2,000 - ₹3,800/night", rating: 4.3, amenities: ["River Tours", "Free WiFi", "Restaurant"] }
+    ],
+
+    // Himachal Pradesh destinations
+    "Spiti Valley": [
+      { name: "Spiti Mountain Lodge", type: "Lodge", priceRange: "₹2,500 - ₹4,800/night", rating: 4.7, amenities: ["Mountain Views", "Stargazing Deck", "Adventure Tours"] },
+      { name: "Himalayan Heights Resort", type: "Resort", priceRange: "₹3,200 - ₹5,500/night", rating: 4.6, amenities: ["Heated Rooms", "Restaurant", "Trek Arrangements"] },
+      { name: "Buddhist Monastery Homestay", type: "Homestay", priceRange: "₹1,800 - ₹3,000/night", rating: 4.5, amenities: ["Cultural Experience", "Traditional Food", "Meditation Sessions"] }
+    ],
+
+    // Gujarat destinations
+    "Dholavira": [
+      { name: "Rann Resort", type: "Resort", priceRange: "₹2,800 - ₹5,000/night", rating: 4.5, amenities: ["Archaeological Tour", "Desert View", "Cultural Programs"] },
+      { name: "Heritage Kutch Hotel", type: "Hotel", priceRange: "₹2,200 - ₹4,000/night", rating: 4.3, amenities: ["Free WiFi", "Traditional Decor", "Guided Tours"] },
+      { name: "Desert Oasis Homestay", type: "Homestay", priceRange: "₹1,500 - ₹2,800/night", rating: 4.2, amenities: ["Home Cooked Food", "Local Crafts", "Cultural Experience"] }
+    ],
+
+    // Nagaland destinations
+    "Khonoma": [
+      { name: "Green Village Resort", type: "Resort", priceRange: "₹2,500 - ₹4,200/night", rating: 4.6, amenities: ["Village Tours", "Traditional Food", "Cultural Shows"] },
+      { name: "Angami Heritage Homestay", type: "Homestay", priceRange: "₹1,200 - ₹2,500/night", rating: 4.5, amenities: ["Local Experience", "Homemade Food", "Tribal Stories"] },
+      { name: "Dzükou Valley Lodge", type: "Lodge", priceRange: "₹2,000 - ₹3,500/night", rating: 4.4, amenities: ["Trek Arrangements", "Scenic Views", "Local Guides"] }
+    ],
+
+    // West Bengal destinations
+    "Sandakphu": [
+      { name: "Himalayan View Resort", type: "Resort", priceRange: "₹2,800 - ₹5,200/night", rating: 4.7, amenities: ["Everest Views", "Trekking Gear", "Mountain Guides"] },
+      { name: "Sandakphu Peak Lodge", type: "Lodge", priceRange: "₹2,000 - ₹3,800/night", rating: 4.5, amenities: ["Heating", "Hot Meals", "Trek Support"] },
+      { name: "Sherpa Homestay", type: "Homestay", priceRange: "₹1,500 - ₹2,800/night", rating: 4.4, amenities: ["Local Food", "Cultural Experience", "Photography Spots"] }
+    ],
+
+    // Andhra Pradesh destinations
+    "Gandikota": [
+      { name: "Canyon View Resort", type: "Resort", priceRange: "₹2,500 - ₹4,500/night", rating: 4.6, amenities: ["Gorge Views", "Adventure Activities", "Swimming Pool"] },
+      { name: "Pennar Riverside Hotel", type: "Hotel", priceRange: "₹2,000 - ₹3,500/night", rating: 4.4, amenities: ["River View", "Restaurant", "Guided Tours"] },
+      { name: "Heritage Fort Homestay", type: "Homestay", priceRange: "₹1,500 - ₹2,800/night", rating: 4.3, amenities: ["Historical Tours", "Local Cuisine", "Cultural Insights"] }
+    ]
   };
   
   // Set up images and handle error fallbacks
@@ -216,6 +327,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   };
   
   if (!destination) return null;
+
+  // Check if train data exists for this destination, if not provide default message
+  const hasTrainData = trainData[destination.name] && trainData[destination.name].length > 0;
+  
+  // Check if hotel data exists for this destination, if not provide default message
+  const hasHotelData = hotelData[destination.name] && hotelData[destination.name].length > 0;
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
@@ -408,54 +525,65 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
                   <TrainFront className="h-5 w-5 text-pink-400" />
                   Trains from Delhi to {destination.state}
                 </h3>
-                <p className="text-sm mb-4">You'll need to take a train to the nearest major station and then continue by road transport.</p>
+                <p className="text-sm mb-4">
+                  {hasTrainData 
+                    ? "You'll need to take a train to the nearest major station and then continue by road transport." 
+                    : `No direct trains available to ${destination.name}. Consider flying to ${destination.state} and then taking local transport.`}
+                </p>
                 
-                <div className="grid grid-cols-1 gap-4">
-                  {(trainData[destination.name] || []).map((train, idx) => (
-                    <Card key={idx} className="bg-white/5 border-0">
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-base font-semibold flex justify-between">
-                          <span>{train.name}</span>
-                          <span className="text-sm font-normal px-2 py-1 rounded bg-green-500/20 text-green-300">
-                            {train.availability}
-                          </span>
-                        </CardTitle>
-                        <CardDescription className="text-white/70">
-                          Delhi to nearest station
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="pt-0 pb-2">
-                        <div className="flex justify-between mb-1">
-                          <div>
-                            <p className="text-lg font-medium">{train.departureTime}</p>
-                            <p className="text-xs text-white/60">Delhi</p>
-                          </div>
-                          <div className="flex items-center px-3">
-                            <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
-                              <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
+                {hasTrainData ? (
+                  <div className="grid grid-cols-1 gap-4">
+                    {trainData[destination.name].map((train, idx) => (
+                      <Card key={idx} className="bg-white/5 border-0">
+                        <CardHeader className="pb-2">
+                          <CardTitle className="text-base font-semibold flex justify-between">
+                            <span>{train.name}</span>
+                            <span className="text-sm font-normal px-2 py-1 rounded bg-green-500/20 text-green-300">
+                              {train.availability}
+                            </span>
+                          </CardTitle>
+                          <CardDescription className="text-white/70">
+                            Delhi to nearest station
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pt-0 pb-2">
+                          <div className="flex justify-between mb-1">
+                            <div>
+                              <p className="text-lg font-medium">{train.departureTime}</p>
+                              <p className="text-xs text-white/60">Delhi</p>
                             </div>
-                            <p className="text-xs mx-2 text-white/60">{train.duration}</p>
-                            <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
-                              <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
+                            <div className="flex items-center px-3">
+                              <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
+                                <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
+                              </div>
+                              <p className="text-xs mx-2 text-white/60">{train.duration}</p>
+                              <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
+                                <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="text-lg font-medium">{train.arrivalTime}</p>
+                              <p className="text-xs text-white/60">Destination</p>
                             </div>
                           </div>
-                          <div className="text-right">
-                            <p className="text-lg font-medium">{train.arrivalTime}</p>
-                            <p className="text-xs text-white/60">Destination</p>
+                        </CardContent>
+                        <CardFooter className="text-sm">
+                          <div className="w-full flex justify-between items-center">
+                            <span className="text-white/80">{train.price}</span>
+                            <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
+                              Check Availability
+                            </a>
                           </div>
-                        </div>
-                      </CardContent>
-                      <CardFooter className="text-sm">
-                        <div className="w-full flex justify-between items-center">
-                          <span className="text-white/80">{train.price}</span>
-                          <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
-                            Check Availability
-                          </a>
-                        </div>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
+                        </CardFooter>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-white/5 p-4 rounded-lg text-center">
+                    <p className="text-white/80">No direct trains available to this destination</p>
+                    <p className="text-sm text-white/60 mt-2">Consider flying to a nearby city and then using local transport</p>
+                  </div>
+                )}
                 
                 <p className="text-xs text-white/70 mt-4">
                   * Prices are approximate. Further road travel will be required to reach {destination.name}.
@@ -471,36 +599,43 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
                   Places to Stay in {destination.name}
                 </h3>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(hotelData[destination.name] || []).map((hotel, idx) => (
-                    <Card key={idx} className="bg-white/5 border-0 overflow-hidden">
-                      <CardHeader className="pb-1">
-                        <CardTitle className="text-base font-semibold">{hotel.name}</CardTitle>
-                        <CardDescription className="text-white/70 flex justify-between">
-                          <span>{hotel.type}</span>
-                          <StarRating rating={hotel.rating} />
-                        </CardDescription>
-                      </CardHeader>
-                      <CardContent className="pb-2">
-                        <p className="text-sm mb-2 font-medium text-pink-300">{hotel.priceRange}</p>
-                        <div className="flex flex-wrap gap-1">
-                          {hotel.amenities.map((amenity, i) => (
-                            <span key={i} className="text-xs px-2 py-1 rounded-full bg-white/10">
-                              {amenity}
-                            </span>
-                          ))}
-                        </div>
-                      </CardContent>
-                      <CardFooter className="pt-0">
-                        <div className="w-full flex justify-end">
-                          <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
-                            Book Now
-                          </a>
-                        </div>
-                      </CardFooter>
-                    </Card>
-                  ))}
-                </div>
+                {hasHotelData ? (
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {hotelData[destination.name].map((hotel, idx) => (
+                      <Card key={idx} className="bg-white/5 border-0 overflow-hidden">
+                        <CardHeader className="pb-1">
+                          <CardTitle className="text-base font-semibold">{hotel.name}</CardTitle>
+                          <CardDescription className="text-white/70 flex justify-between">
+                            <span>{hotel.type}</span>
+                            <StarRating rating={hotel.rating} />
+                          </CardDescription>
+                        </CardHeader>
+                        <CardContent className="pb-2">
+                          <p className="text-sm mb-2 font-medium text-pink-300">{hotel.priceRange}</p>
+                          <div className="flex flex-wrap gap-1">
+                            {hotel.amenities.map((amenity, i) => (
+                              <span key={i} className="text-xs px-2 py-1 rounded-full bg-white/10">
+                                {amenity}
+                              </span>
+                            ))}
+                          </div>
+                        </CardContent>
+                        <CardFooter className="pt-0">
+                          <div className="w-full flex justify-end">
+                            <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
+                              Book Now
+                            </a>
+                          </div>
+                        </CardFooter>
+                      </Card>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="bg-white/5 p-4 rounded-lg text-center">
+                    <p className="text-white/80">Limited accommodation information available</p>
+                    <p className="text-sm text-white/60 mt-2">We recommend checking local homestays or contacting tourism board</p>
+                  </div>
+                )}
                 
                 <p className="text-xs text-white/70 mt-4">
                   * Prices may vary by season. Booking in advance is recommended as accommodation options are limited.
