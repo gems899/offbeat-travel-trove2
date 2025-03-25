@@ -1,25 +1,44 @@
 
 import React from 'react';
 import { Camera, Map, MapPin, Mountain } from 'lucide-react';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+
+interface ExplorationCardProps {
+  icon: React.ElementType;
+  title: string;
+  description: string;
+  imageSrc: string;
+}
 
 const ExplorationCard = ({ 
   icon: Icon, 
   title, 
-  description 
-}: { 
-  icon: React.ElementType; 
-  title: string; 
-  description: string 
-}) => (
-  <div className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-md hover-scale">
-    <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center mb-6">
-      <Icon className="h-6 w-6 text-primary" />
+  description,
+  imageSrc
+}: ExplorationCardProps) => (
+  <Card className="overflow-hidden bg-white dark:bg-gray-800 rounded-xl shadow-md hover-scale transition-all duration-300 hover:shadow-xl">
+    <div className="relative h-48 overflow-hidden">
+      <img 
+        src={imageSrc} 
+        alt={title}
+        className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+      <div className="absolute bottom-4 left-4">
+        <div className="h-10 w-10 bg-primary/80 backdrop-blur-sm rounded-full flex items-center justify-center">
+          <Icon className="h-5 w-5 text-white" />
+        </div>
+      </div>
     </div>
-    <h3 className="text-xl font-bold mb-2">{title}</h3>
-    <p className="text-gray-600 dark:text-gray-300">
-      {description}
-    </p>
-  </div>
+    <CardHeader className="pb-2">
+      <CardTitle className="text-xl font-bold">{title}</CardTitle>
+    </CardHeader>
+    <CardContent>
+      <CardDescription className="text-gray-600 dark:text-gray-300">
+        {description}
+      </CardDescription>
+    </CardContent>
+  </Card>
 );
 
 const Exploration: React.FC = () => {
@@ -41,24 +60,28 @@ const Exploration: React.FC = () => {
             icon={MapPin} 
             title="Undiscovered Places" 
             description="Find hidden gems and secluded spots that most travelers miss, providing authentic experiences away from crowds."
+            imageSrc="https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
           />
           
           <ExplorationCard 
             icon={Camera} 
             title="Capture Memories" 
             description="Document extraordinary landscapes, cultural encounters, and unique moments that tell a richer travel story."
+            imageSrc="https://images.unsplash.com/photo-1433086966358-54859d0ed716?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
           />
           
           <ExplorationCard 
             icon={Mountain} 
             title="Connect with Nature" 
             description="Immerse yourself in pristine natural environments and witness breathtaking landscapes untouched by mass tourism."
+            imageSrc="https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
           />
           
           <ExplorationCard 
             icon={Map} 
             title="Cultural Immersion" 
             description="Engage with local communities, traditions, and heritage for a deeper understanding of India's diverse cultures."
+            imageSrc="https://images.unsplash.com/photo-1469041797191-50ace28483c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
           />
         </div>
         
