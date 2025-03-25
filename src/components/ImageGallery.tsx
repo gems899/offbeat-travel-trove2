@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Destination } from '@/data/destinations';
@@ -335,7 +336,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[100vw] max-h-[100vh] w-[100vw] h-[100vh] p-0 m-0 overflow-hidden bg-gradient-to-br from-gray-900 to-black border-none">
+      <DialogContent className="sm:max-w-5xl max-h-[90vh] p-0 overflow-hidden bg-gradient-to-br from-gray-900 to-black border-none">
         <DialogTitle className="sr-only">{destination.name} Image Gallery</DialogTitle>
         <DialogDescription className="sr-only">
           View images of {destination.name} in {destination.state}
@@ -349,9 +350,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
           <X className="h-5 w-5" />
         </button>
         
-        <div className="flex flex-col items-center h-full w-full">
-          {/* Main Image Container - Now fullscreen */}
-          <div className="relative w-full h-[75vh] flex items-center justify-center bg-gradient-to-br from-gray-800 to-black bg-opacity-80 overflow-hidden">
+        <div className="flex flex-col items-center max-h-[90vh] overflow-y-auto">
+          {/* Main Image Container */}
+          <div className="relative w-full h-[50vh] flex items-center justify-center bg-gradient-to-br from-gray-800 to-black bg-opacity-80 overflow-hidden">
             <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-gray-900 to-black" />
             
             {/* Main image with zoom effect */}
@@ -364,7 +365,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
               <img 
                 src={allImages[currentImageIndex]} 
                 alt={`${destination.name} - Image ${currentImageIndex + 1}`}
-                className="max-h-[75vh] max-w-full object-contain mx-auto transition-opacity duration-300"
+                className="max-h-[50vh] max-w-full object-contain mx-auto transition-opacity duration-300"
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
@@ -416,26 +417,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
                   <Info className="h-5 w-5" />
                   <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
                     {showInfo ? 'Hide info' : 'Show info'}
-                  </span>
-                </button>
-                <button 
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
-                  onClick={toggleTrainInfo}
-                  aria-label="Show train information"
-                >
-                  <TrainFront className="h-5 w-5" />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    {showTrainInfo ? 'Hide trains' : 'Show trains'}
-                  </span>
-                </button>
-                <button 
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
-                  onClick={toggleHotelInfo}
-                  aria-label="Show hotel information"
-                >
-                  <Hotel className="h-5 w-5" />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    {showHotelInfo ? 'Hide hotels' : 'Show hotels'}
                   </span>
                 </button>
                 <button 
@@ -517,6 +498,25 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
                 ))}
               </div>
             )}
+            
+            {/* Travel & Stay Options */}
+            <div className="flex flex-col sm:flex-row gap-4 mt-6">
+              <button
+                onClick={toggleTrainInfo}
+                className={`flex-1 p-4 rounded-xl transition-all bg-black/40 hover:bg-black/60 border ${showTrainInfo ? 'border-pink-500' : 'border-transparent'} flex items-center justify-center gap-2`}
+              >
+                <TrainFront className="h-5 w-5 text-pink-400" />
+                <span className="font-medium">Trains from Delhi</span>
+              </button>
+              
+              <button
+                onClick={toggleHotelInfo}
+                className={`flex-1 p-4 rounded-xl transition-all bg-black/40 hover:bg-black/60 border ${showHotelInfo ? 'border-pink-500' : 'border-transparent'} flex items-center justify-center gap-2`}
+              >
+                <Hotel className="h-5 w-5 text-pink-400" />
+                <span className="font-medium">Hotels & Stays</span>
+              </button>
+            </div>
             
             {/* Train Information */}
             {showTrainInfo && (
