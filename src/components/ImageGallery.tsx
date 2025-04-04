@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Destination } from '@/data/destinations';
 import { X, ChevronLeft, ChevronRight, Share2, Download, Heart, Info, ZoomIn, TrainFront, Hotel } from 'lucide-react';
@@ -33,16 +32,11 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isLiked, setIsLiked] = useState(false);
   const [showInfo, setShowInfo] = useState(true); // Show info by default
-  const [isZoomed, setIsZoomed] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [allImages, setAllImages] = useState<string[]>([]);
   const [showTrainInfo, setShowTrainInfo] = useState(false);
   const [showHotelInfo, setShowHotelInfo] = useState(false);
-  const [scrollExpanded, setScrollExpanded] = useState(false);
-  const [lastScrollY, setLastScrollY] = useState(0);
-  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
-  const scrollRef = useRef<HTMLDivElement>(null);
   
-  // Comprehensive train data from Delhi for all destinations
   const trainData: Record<string, TrainInfo[]> = {
     // Arunachal Pradesh destinations
     "Mechuka": [
@@ -110,7 +104,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
     ]
   };
 
-  // Comprehensive hotel data for all destinations
   const hotelData: Record<string, HotelInfo[]> = {
     // Arunachal Pradesh destinations
     "Mechuka": [
@@ -189,22 +182,17 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
       { name: "Heritage Fort Homestay", type: "Homestay", priceRange: "₹1,500 - ₹2,800/night", rating: 4.3, amenities: ["Historical Tours", "Local Cuisine", "Cultural Insights"] }
     ]
   };
-  
-  // Set up images and handle error fallbacks
+
   useEffect(() => {
     if (destination) {
-      // Default fallback image if all images fail to load
       const fallbackImage = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80';
       
-      // Create image array with main image first, then gallery images
       const images = [
         destination.image || fallbackImage,
         ...(destination.galleryImages || [])
       ];
       
-      // For each image, preload to test if it works
       const preloadedImages = images.map(src => {
-        // If src is empty or invalid, use fallback
         if (!src || src.includes('undefined') || src === "") {
           return fallbackImage;
         }
@@ -215,60 +203,50 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
     }
   }, [destination]);
   
-  // Reset current image index and scroll state when modal opens
   useEffect(() => {
     if (isOpen) {
       setCurrentImageIndex(0);
       setShowInfo(true);
-      setIsZoomed(false);
+      setIsFullscreen(false);
       setShowTrainInfo(false);
       setShowHotelInfo(false);
-      setScrollExpanded(false);
-      setLastScrollY(0);
-      setScrollDirection('up');
     }
   }, [isOpen, destination]);
 
-  // Handle scroll events to control image expansion/contraction
   useEffect(() => {
-    if (!isOpen || !scrollRef.current) return;
-
-    const handleScroll = () => {
-      if (!scrollRef.current) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!isOpen) return;
       
-      const currentScrollY = scrollRef.current.scrollTop;
-      
-      // Determine scroll direction
-      if (currentScrollY > lastScrollY + 10) {
-        setScrollDirection('down');
-      } else if (currentScrollY < lastScrollY - 10) {
-        setScrollDirection('up');
+      switch (e.key) {
+        case 'Escape':
+          if (isFullscreen) {
+            setIsFullscreen(false);
+          } else {
+            onClose();
+          }
+          break;
+        case 'ArrowRight':
+          handleNext(e as unknown as React.MouseEvent);
+          break;
+        case 'ArrowLeft':
+          handlePrev(e as unknown as React.MouseEvent);
+          break;
+        case 'f':
+          toggleFullscreen(e as unknown as React.MouseEvent);
+          break;
       }
-      
-      // Update scroll state based on direction and threshold
-      if (scrollDirection === 'down' && currentScrollY > 50) {
-        setScrollExpanded(true);
-      } else if (scrollDirection === 'up' && currentScrollY < 200) {
-        setScrollExpanded(false);
-      }
-      
-      setLastScrollY(currentScrollY);
     };
-
-    const scrollElement = scrollRef.current;
-    scrollElement.addEventListener('scroll', handleScroll);
     
-    return () => {
-      scrollElement.removeEventListener('scroll', handleScroll);
-    };
-  }, [isOpen, lastScrollY, scrollDirection]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [isOpen, isFullscreen, onClose, currentImageIndex, allImages.length]);
   
-  const handleNext = (e: React.MouseEvent) => {
+  const handleNext = (e: React.MouseEvent | KeyboardEvent) => {
     e.stopPropagation();
     setCurrentImageIndex((prev) => (prev + 1) % allImages.length);
   };
   
-  const handlePrev = (e: React.MouseEvent) => {
+  const handlePrev = (e: React.MouseEvent | KeyboardEvent) => {
     e.stopPropagation();
     setCurrentImageIndex((prev) => (prev - 1 + allImages.length) % allImages.length);
   };
@@ -291,9 +269,17 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
     });
   };
 
-  const toggleZoom = (e: React.MouseEvent) => {
+  const toggleFullscreen = (e: React.MouseEvent | KeyboardEvent) => {
     e.stopPropagation();
-    setIsZoomed(!isZoomed);
+    setIsFullscreen(!isFullscreen);
+    
+    if (!isFullscreen) {
+      setShowInfo(false);
+      setShowTrainInfo(false);
+      setShowHotelInfo(false);
+    } else {
+      setShowInfo(true);
+    }
   };
   
   const handleDownload = async (e: React.MouseEvent) => {
@@ -304,15 +290,12 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
       const response = await fetch(currentImage);
       const blob = await response.blob();
       
-      // Create a temporary anchor element
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
       
-      // Extract filename from path or set a default
       const filename = currentImage.split('/').pop() || `${destination?.name.toLowerCase().replace(/\s+/g, '-')}-${currentImageIndex + 1}.jpg`;
       link.download = filename;
       
-      // Trigger download
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -342,7 +325,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
     if (showTrainInfo) setShowTrainInfo(false);
   };
   
-  // Determine gallery background gradient based on state name (for visual variety)
   const getGradient = (stateName: string) => {
     const firstChar = stateName.charAt(0).toLowerCase();
     
@@ -352,7 +334,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
     return 'from-emerald-900/90 to-blue-900/90';
   };
   
-  // Star rating component
   const StarRating = ({ rating }: { rating: number }) => {
     return (
       <div className="flex items-center">
@@ -369,15 +350,13 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   
   if (!destination) return null;
 
-  // Check if train data exists for this destination, if not provide default message
   const hasTrainData = trainData[destination.name] && trainData[destination.name].length > 0;
   
-  // Check if hotel data exists for this destination, if not provide default message
   const hasHotelData = hotelData[destination.name] && hotelData[destination.name].length > 0;
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-5xl max-h-[90vh] p-0 overflow-hidden bg-gradient-to-br from-gray-900 to-black border-none">
+      <DialogContent className={`sm:max-w-5xl p-0 overflow-hidden bg-gradient-to-br from-gray-900 to-black border-none ${isFullscreen ? 'max-h-screen h-screen max-w-screen w-screen rounded-none' : 'max-h-[90vh]'}`}>
         <DialogTitle className="sr-only">{destination.name} Image Gallery</DialogTitle>
         <DialogDescription className="sr-only">
           View images of {destination.name} in {destination.state}
@@ -391,50 +370,27 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
           <X className="h-5 w-5" />
         </button>
         
-        <div 
-          ref={scrollRef}
-          className="flex flex-col items-center max-h-[90vh] overflow-y-auto"
-        >
-          {/* Main Image Container - Dynamic height based on scroll */}
-          <div 
-            className={`relative w-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-black bg-opacity-80 overflow-hidden transition-all duration-500 ease-in-out ${
-              scrollExpanded ? 'h-[90vh]' : 'h-[50vh]'
-            }`}
-          >
+        <div className="flex flex-col items-center h-full">
+          <div className={`relative w-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-black bg-opacity-80 overflow-hidden transition-all duration-500 ease-in-out ${
+            isFullscreen ? 'h-screen' : 'h-[50vh]'
+          }`}>
             <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-gray-900 to-black" />
             
-            {/* Scroll indicator - only visible when collapsed */}
-            {!scrollExpanded && (
-              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce text-white/80 text-xs flex flex-col items-center z-30">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-                </svg>
-                <span className="mt-1">Scroll down to expand</span>
-              </div>
-            )}
+            <div className="absolute top-4 left-1/2 -translate-x-1/2 text-white/80 text-xs flex flex-col items-center z-30">
+              <span className="mt-1">
+                {isFullscreen ? "Press ESC to exit fullscreen" : "Click the image to expand"}
+              </span>
+            </div>
             
-            {/* Scroll up indicator - only visible when expanded */}
-            {scrollExpanded && (
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 animate-bounce text-white/80 text-xs flex flex-col items-center z-30">
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
-                </svg>
-                <span className="mt-1">Scroll up to minimize</span>
-              </div>
-            )}
-            
-            {/* Main image with zoom effect */}
             <div 
-              className={`relative z-10 max-h-full max-w-full transition-all duration-300 ${
-                isZoomed ? "scale-150 cursor-zoom-out" : "cursor-zoom-in"
-              }`}
-              onClick={toggleZoom}
+              className="relative z-10 max-h-full max-w-full transition-all duration-300 cursor-pointer"
+              onClick={toggleFullscreen}
             >
               <img 
                 src={allImages[currentImageIndex]} 
                 alt={`${destination.name} - Image ${currentImageIndex + 1}`}
                 className={`object-contain mx-auto transition-all duration-500 ${
-                  scrollExpanded ? 'max-h-[85vh] max-w-full' : 'max-h-[50vh] max-w-full'
+                  isFullscreen ? 'max-h-[95vh] max-w-full' : 'max-h-[50vh] max-w-full'
                 }`}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
@@ -444,7 +400,6 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
               />
             </div>
             
-            {/* Navigation Arrows */}
             {allImages.length > 1 && (
               <>
                 <button 
@@ -466,270 +421,255 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
             )}
           </div>
           
-          {/* Footer with Caption and Controls - Hidden when image is expanded */}
-          <div className={`w-full p-5 bg-gradient-to-r ${getGradient(destination.state)} text-white transition-all duration-500 ease-in-out ${
-            scrollExpanded ? 'opacity-0 h-0 overflow-hidden p-0' : 'opacity-100'
-          }`}>
-            <div className="flex flex-col sm:flex-row justify-between items-start mb-4">
-              <div className="mb-3 sm:mb-0 max-w-2xl">
-                <h2 className="text-2xl font-semibold mb-1">{destination.name}</h2>
-                <p className="text-white/80 text-sm mb-2">{destination.state}</p>
-                {showInfo && (
-                  <p className="text-white/90 text-sm leading-relaxed border-l-2 border-white/30 pl-3 mb-3">
-                    {destination.description}
-                  </p>
-                )}
-              </div>
-              <div className="flex space-x-3">
-                <button 
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
-                  onClick={toggleInfo}
-                  aria-label="Show information"
-                >
-                  <Info className="h-5 w-5" />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    {showInfo ? 'Hide info' : 'Show info'}
-                  </span>
-                </button>
-                <button 
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toast("Share functionality coming soon!", {
-                      position: "bottom-center",
-                    });
-                  }}
-                  aria-label="Share"
-                >
-                  <Share2 className="h-5 w-5" />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    Share
-                  </span>
-                </button>
-                <button 
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
-                  onClick={handleDownload}
-                  aria-label="Download"
-                >
-                  <Download className="h-5 w-5" />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    Download
-                  </span>
-                </button>
-                <button 
-                  onClick={toggleLike}
-                  className={`p-2 rounded-full ${isLiked ? 'bg-pink-600/30' : 'bg-white/10'} hover:bg-white/20 transition-colors group relative`}
-                  aria-label={isLiked ? "Remove from favorites" : "Add to favorites"}
-                >
-                  <Heart className={`h-5 w-5 ${isLiked ? "fill-pink-500 text-pink-500" : ""} transition-colors`} />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    {isLiked ? 'Remove from favorites' : 'Add to favorites'}
-                  </span>
-                </button>
-                <button 
-                  onClick={toggleZoom}
-                  className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
-                  aria-label={isZoomed ? "Zoom out" : "Zoom in"}
-                >
-                  <ZoomIn className="h-5 w-5" />
-                  <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
-                    {isZoomed ? 'Zoom out' : 'Zoom in'}
-                  </span>
-                </button>
-              </div>
-            </div>
-            
-            {/* Thumbnail Navigation */}
-            {allImages.length > 1 && (
-              <div className="flex space-x-2 overflow-x-auto py-3 scrollbar-thin">
-                {allImages.map((img, idx) => (
+          {!isFullscreen && (
+            <div className={`w-full p-5 bg-gradient-to-r ${getGradient(destination.state)} text-white`}>
+              <div className="flex flex-col sm:flex-row justify-between items-start mb-4">
+                <div className="mb-3 sm:mb-0 max-w-2xl">
+                  <h2 className="text-2xl font-semibold mb-1">{destination.name}</h2>
+                  <p className="text-white/80 text-sm mb-2">{destination.state}</p>
+                  {showInfo && (
+                    <p className="text-white/90 text-sm leading-relaxed border-l-2 border-white/30 pl-3 mb-3">
+                      {destination.description}
+                    </p>
+                  )}
+                </div>
+                <div className="flex space-x-3">
                   <button 
-                    key={idx}
+                    className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
+                    onClick={toggleInfo}
+                    aria-label="Show information"
+                  >
+                    <Info className="h-5 w-5" />
+                    <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                      {showInfo ? 'Hide info' : 'Show info'}
+                    </span>
+                  </button>
+                  <button 
+                    className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
                     onClick={(e) => {
                       e.stopPropagation();
-                      setCurrentImageIndex(idx);
+                      toast("Share functionality coming soon!", {
+                        position: "bottom-center",
+                      });
                     }}
-                    className={`relative flex-shrink-0 h-16 w-24 rounded-md overflow-hidden transition-all hover:scale-105 ${
-                      currentImageIndex === idx 
-                        ? 'ring-2 ring-white ring-offset-2 ring-offset-black scale-105' 
-                        : 'opacity-70 hover:opacity-100'
-                    }`}
-                    aria-label={`View image ${idx + 1}`}
+                    aria-label="Share"
                   >
-                    <img 
-                      src={img} 
-                      alt="" 
-                      className="h-full w-full object-cover"
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.onerror = null;
-                        target.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80';
-                      }}
-                    />
+                    <Share2 className="h-5 w-5" />
+                    <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                      Share
+                    </span>
                   </button>
-                ))}
+                  <button 
+                    className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
+                    onClick={handleDownload}
+                    aria-label="Download"
+                  >
+                    <Download className="h-5 w-5" />
+                    <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                      Download
+                    </span>
+                  </button>
+                  <button 
+                    onClick={toggleLike}
+                    className={`p-2 rounded-full ${isLiked ? 'bg-pink-600/30' : 'bg-white/10'} hover:bg-white/20 transition-colors group relative`}
+                    aria-label={isLiked ? "Remove from favorites" : "Add to favorites"}
+                  >
+                    <Heart className={`h-5 w-5 ${isLiked ? "fill-pink-500 text-pink-500" : ""} transition-colors`} />
+                    <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                      {isLiked ? 'Remove from favorites' : 'Add to favorites'}
+                    </span>
+                  </button>
+                  <button 
+                    onClick={toggleFullscreen}
+                    className="p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors group relative"
+                    aria-label="Enter fullscreen"
+                  >
+                    <ZoomIn className="h-5 w-5" />
+                    <span className="absolute bottom-full right-0 mb-2 hidden group-hover:block bg-black/70 text-white text-xs px-2 py-1 rounded whitespace-nowrap">
+                      Fullscreen
+                    </span>
+                  </button>
+                </div>
               </div>
-            )}
-            
-            {/* Travel & Stay Options */}
-            <div className="flex flex-col sm:flex-row gap-4 mt-6">
-              <button
-                onClick={toggleTrainInfo}
-                className={`flex-1 p-4 rounded-xl transition-all bg-black/40 hover:bg-black/60 border ${showTrainInfo ? 'border-pink-500' : 'border-transparent'} flex items-center justify-center gap-2`}
-              >
-                <TrainFront className="h-5 w-5 text-pink-400" />
-                <span className="font-medium">Trains from Delhi</span>
-              </button>
               
-              <button
-                onClick={toggleHotelInfo}
-                className={`flex-1 p-4 rounded-xl transition-all bg-black/40 hover:bg-black/60 border ${showHotelInfo ? 'border-pink-500' : 'border-transparent'} flex items-center justify-center gap-2`}
-              >
-                <Hotel className="h-5 w-5 text-pink-400" />
-                <span className="font-medium">Hotels & Stays</span>
-              </button>
-            </div>
-            
-            {/* Train Information */}
-            {showTrainInfo && (
-              <div className="mt-4 bg-black/30 rounded-xl p-4 animate-fadeIn">
-                <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
+              {allImages.length > 1 && (
+                <div className="flex space-x-2 overflow-x-auto py-3 scrollbar-thin">
+                  {allImages.map((img, idx) => (
+                    <button 
+                      key={idx}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setCurrentImageIndex(idx);
+                      }}
+                      className={`relative flex-shrink-0 h-16 w-24 rounded-md overflow-hidden transition-all hover:scale-105 ${
+                        currentImageIndex === idx 
+                          ? 'ring-2 ring-white ring-offset-2 ring-offset-black scale-105' 
+                          : 'opacity-70 hover:opacity-100'
+                      }`}
+                      aria-label={`View image ${idx + 1}`}
+                    >
+                      <img 
+                        src={img} 
+                        alt="" 
+                        className="h-full w-full object-cover"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.onerror = null;
+                          target.src = 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80';
+                        }}
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
+              
+              <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                <button
+                  onClick={toggleTrainInfo}
+                  className={`flex-1 p-4 rounded-xl transition-all bg-black/40 hover:bg-black/60 border ${showTrainInfo ? 'border-pink-500' : 'border-transparent'} flex items-center justify-center gap-2`}
+                >
                   <TrainFront className="h-5 w-5 text-pink-400" />
-                  Trains from Delhi to {destination.state}
-                </h3>
-                <p className="text-sm mb-4">
-                  {hasTrainData 
-                    ? "You'll need to take a train to the nearest major station and then continue by road transport." 
-                    : `No direct trains available to ${destination.name}. Consider flying to ${destination.state} and then taking local transport.`}
-                </p>
+                  <span className="font-medium">Trains from Delhi</span>
+                </button>
                 
-                {hasTrainData ? (
-                  <div className="grid grid-cols-1 gap-4">
-                    {trainData[destination.name].map((train, idx) => (
-                      <Card key={idx} className="bg-white/5 border-0">
-                        <CardHeader className="pb-2">
-                          <CardTitle className="text-base font-semibold flex justify-between">
-                            <span>{train.name}</span>
-                            <span className="text-sm font-normal px-2 py-1 rounded bg-green-500/20 text-green-300">
-                              {train.availability}
-                            </span>
-                          </CardTitle>
-                          <CardDescription className="text-white/70">
-                            Delhi to nearest station
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="pt-0 pb-2">
-                          <div className="flex justify-between mb-1">
-                            <div>
-                              <p className="text-lg font-medium">{train.departureTime}</p>
-                              <p className="text-xs text-white/60">Delhi</p>
-                            </div>
-                            <div className="flex items-center px-3">
-                              <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
-                                <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
-                              </div>
-                              <p className="text-xs mx-2 text-white/60">{train.duration}</p>
-                              <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
-                                <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="text-lg font-medium">{train.arrivalTime}</p>
-                              <p className="text-xs text-white/60">Destination</p>
-                            </div>
-                          </div>
-                        </CardContent>
-                        <CardFooter className="text-sm">
-                          <div className="w-full flex justify-between items-center">
-                            <span className="text-white/80">{train.price}</span>
-                            <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
-                              Check Availability
-                            </a>
-                          </div>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="bg-white/5 p-4 rounded-lg text-center">
-                    <p className="text-white/80">No direct trains available to this destination</p>
-                    <p className="text-sm text-white/60 mt-2">Consider flying to a nearby city and then using local transport</p>
-                  </div>
-                )}
-                
-                <p className="text-xs text-white/70 mt-4">
-                  * Prices are approximate. Further road travel will be required to reach {destination.name}.
-                </p>
-              </div>
-            )}
-            
-            {/* Hotel Information */}
-            {showHotelInfo && (
-              <div className="mt-4 bg-black/30 rounded-xl p-4 animate-fadeIn">
-                <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
+                <button
+                  onClick={toggleHotelInfo}
+                  className={`flex-1 p-4 rounded-xl transition-all bg-black/40 hover:bg-black/60 border ${showHotelInfo ? 'border-pink-500' : 'border-transparent'} flex items-center justify-center gap-2`}
+                >
                   <Hotel className="h-5 w-5 text-pink-400" />
-                  Places to Stay in {destination.name}
-                </h3>
-                
-                {hasHotelData ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {hotelData[destination.name].map((hotel, idx) => (
-                      <Card key={idx} className="bg-white/5 border-0 overflow-hidden">
-                        <CardHeader className="pb-1">
-                          <CardTitle className="text-base font-semibold">{hotel.name}</CardTitle>
-                          <CardDescription className="text-white/70 flex justify-between">
-                            <span>{hotel.type}</span>
-                            <StarRating rating={hotel.rating} />
-                          </CardDescription>
-                        </CardHeader>
-                        <CardContent className="pb-2">
-                          <p className="text-sm mb-2 font-medium text-pink-300">{hotel.priceRange}</p>
-                          <div className="flex flex-wrap gap-1">
-                            {hotel.amenities.map((amenity, i) => (
-                              <span key={i} className="text-xs px-2 py-1 rounded-full bg-white/10">
-                                {amenity}
+                  <span className="font-medium">Hotels & Stays</span>
+                </button>
+              </div>
+              
+              {showTrainInfo && (
+                <div className="mt-4 bg-black/30 rounded-xl p-4 animate-fadeIn">
+                  <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
+                    <TrainFront className="h-5 w-5 text-pink-400" />
+                    Trains from Delhi to {destination.state}
+                  </h3>
+                  <p className="text-sm mb-4">
+                    {hasTrainData 
+                      ? "You'll need to take a train to the nearest major station and then continue by road transport." 
+                      : `No direct trains available to ${destination.name}. Consider flying to ${destination.state} and then taking local transport.`}
+                  </p>
+                  
+                  {hasTrainData ? (
+                    <div className="grid grid-cols-1 gap-4">
+                      {trainData[destination.name].map((train, idx) => (
+                        <Card key={idx} className="bg-white/5 border-0">
+                          <CardHeader className="pb-2">
+                            <CardTitle className="text-base font-semibold flex justify-between">
+                              <span>{train.name}</span>
+                              <span className="text-sm font-normal px-2 py-1 rounded bg-green-500/20 text-green-300">
+                                {train.availability}
                               </span>
-                            ))}
-                          </div>
-                        </CardContent>
-                        <CardFooter className="pt-0">
-                          <div className="w-full flex justify-end">
-                            <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
-                              Book Now
-                            </a>
-                          </div>
-                        </CardFooter>
-                      </Card>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="bg-white/5 p-4 rounded-lg text-center">
-                    <p className="text-white/80">Limited accommodation information available</p>
-                    <p className="text-sm text-white/60 mt-2">We recommend checking local homestays or contacting tourism board</p>
-                  </div>
-                )}
-                
-                <p className="text-xs text-white/70 mt-4">
-                  * Prices may vary by season. Booking in advance is recommended as accommodation options are limited.
-                </p>
-              </div>
-            )}
-            
-            {/* Counter and Instructions */}
-            <div className="text-sm text-white/70 mt-6 flex justify-between items-center border-t border-white/10 pt-4">
-              <span>Image {currentImageIndex + 1} of {allImages.length}</span>
-              <div className="flex space-x-2">
-                <span className="text-xs bg-white/20 px-2 py-1 rounded-full">Use arrow keys to navigate</span>
-                <span className="text-xs bg-white/20 px-2 py-1 rounded-full hidden sm:inline-block">Press Esc to close</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Additional content placeholder for scrolling - only visible when expanded */}
-          {scrollExpanded && (
-            <div className="w-full p-8 bg-gradient-to-t from-black to-transparent">
-              <div className="text-center text-white/80 animate-fadeIn">
-                <p className="text-sm mb-6">Scroll up to return to gallery options</p>
+                            </CardTitle>
+                            <CardDescription className="text-white/70">
+                              Delhi to nearest station
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="pt-0 pb-2">
+                            <div className="flex justify-between mb-1">
+                              <div>
+                                <p className="text-lg font-medium">{train.departureTime}</p>
+                                <p className="text-xs text-white/60">Delhi</p>
+                              </div>
+                              <div className="flex items-center px-3">
+                                <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
+                                  <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
+                                </div>
+                                <p className="text-xs mx-2 text-white/60">{train.duration}</p>
+                                <div className="h-[1px] w-12 sm:w-20 bg-white/20 relative">
+                                  <div className="absolute -top-[9px] -right-1 w-2 h-2 rotate-45 border-t border-r border-white/20"></div>
+                                </div>
+                              </div>
+                              <div className="text-right">
+                                <p className="text-lg font-medium">{train.arrivalTime}</p>
+                                <p className="text-xs text-white/60">Destination</p>
+                              </div>
+                            </div>
+                          </CardContent>
+                          <CardFooter className="text-sm">
+                            <div className="w-full flex justify-between items-center">
+                              <span className="text-white/80">{train.price}</span>
+                              <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
+                                Check Availability
+                              </a>
+                            </div>
+                          </CardFooter>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="bg-white/5 p-4 rounded-lg text-center">
+                      <p className="text-white/80">No direct trains available to this destination</p>
+                      <p className="text-sm text-white/60 mt-2">Consider flying to a nearby city and then using local transport</p>
+                    </div>
+                  )}
+                  
+                  <p className="text-xs text-white/70 mt-4">
+                    * Prices are approximate. Further road travel will be required to reach {destination.name}.
+                  </p>
+                </div>
+              )}
+              
+              {showHotelInfo && (
+                <div className="mt-4 bg-black/30 rounded-xl p-4 animate-fadeIn">
+                  <h3 className="text-lg font-semibold flex items-center gap-2 mb-3">
+                    <Hotel className="h-5 w-5 text-pink-400" />
+                    Places to Stay in {destination.name}
+                  </h3>
+                  
+                  {hasHotelData ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {hotelData[destination.name].map((hotel, idx) => (
+                        <Card key={idx} className="bg-white/5 border-0 overflow-hidden">
+                          <CardHeader className="pb-1">
+                            <CardTitle className="text-base font-semibold">{hotel.name}</CardTitle>
+                            <CardDescription className="text-white/70 flex justify-between">
+                              <span>{hotel.type}</span>
+                              <StarRating rating={hotel.rating} />
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent className="pb-2">
+                            <p className="text-sm mb-2 font-medium text-pink-300">{hotel.priceRange}</p>
+                            <div className="flex flex-wrap gap-1">
+                              {hotel.amenities.map((amenity, i) => (
+                                <span key={i} className="text-xs px-2 py-1 rounded-full bg-white/10">
+                                  {amenity}
+                                </span>
+                              ))}
+                            </div>
+                          </CardContent>
+                          <CardFooter className="pt-0">
+                            <div className="w-full flex justify-end">
+                              <a href="#" className="text-xs px-3 py-1 rounded-full bg-pink-500/80 hover:bg-pink-500 transition-colors">
+                                Book Now
+                              </a>
+                            </div>
+                          </CardFooter>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="bg-white/5 p-4 rounded-lg text-center">
+                      <p className="text-white/80">Limited accommodation information available</p>
+                      <p className="text-sm text-white/60 mt-2">We recommend checking local homestays or contacting tourism board</p>
+                    </div>
+                  )}
+                  
+                  <p className="text-xs text-white/70 mt-4">
+                    * Prices may vary by season. Booking in advance is recommended as accommodation options are limited.
+                  </p>
+                </div>
+              )}
+              
+              <div className="text-sm text-white/70 mt-6 flex justify-between items-center border-t border-white/10 pt-4">
+                <span>Image {currentImageIndex + 1} of {allImages.length}</span>
+                <div className="flex space-x-2">
+                  <span className="text-xs bg-white/20 px-2 py-1 rounded-full">Use arrow keys to navigate</span>
+                  <span className="text-xs bg-white/20 px-2 py-1 rounded-full hidden sm:inline-block">Press Esc to close</span>
+                </div>
               </div>
             </div>
           )}
