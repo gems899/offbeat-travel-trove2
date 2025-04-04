@@ -74,9 +74,14 @@ const Index: React.FC = () => {
     // Add keyboard navigation for gallery
     const handleKeydown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        const closeButtons = document.querySelectorAll('[aria-label="Close"]');
-        if (closeButtons.length > 0) {
-          (closeButtons[0] as HTMLButtonElement).click();
+        // Only close the dialog if we're not in fullscreen mode
+        // The fullscreen exit is handled in the ImageGallery component
+        const fullscreenElements = document.querySelectorAll('.max-w-screen.h-screen');
+        if (fullscreenElements.length === 0) {
+          const closeButtons = document.querySelectorAll('[aria-label="Close"]');
+          if (closeButtons.length > 0) {
+            (closeButtons[0] as HTMLButtonElement).click();
+          }
         }
       }
       

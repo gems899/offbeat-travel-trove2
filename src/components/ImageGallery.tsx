@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Destination } from '@/data/destinations';
@@ -221,8 +222,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
         case 'Escape':
           if (isFullscreen) {
             setIsFullscreen(false);
-          } else {
-            onClose();
+            setShowInfo(true);
+            // Don't close the dialog, just exit fullscreen
+            e.preventDefault(); // Prevent default ESC behavior
           }
           break;
         case 'ArrowRight':
@@ -668,7 +670,7 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
                 <span>Image {currentImageIndex + 1} of {allImages.length}</span>
                 <div className="flex space-x-2">
                   <span className="text-xs bg-white/20 px-2 py-1 rounded-full">Use arrow keys to navigate</span>
-                  <span className="text-xs bg-white/20 px-2 py-1 rounded-full hidden sm:inline-block">Press Esc to close</span>
+                  <span className="text-xs bg-white/20 px-2 py-1 rounded-full hidden sm:inline-block">Press Esc to exit fullscreen</span>
                 </div>
               </div>
             </div>
