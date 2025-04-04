@@ -43,10 +43,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState<Set<number>>(new Set());
 
-  // Create an array with all images
+  // Create an array with all images - fixed property names to match the Destination type
   const allImages = [
-    destination.imageUrl,
-    ...(destination.additionalImages || [])
+    destination.image,
+    ...(destination.galleryImages || [])
   ].filter(Boolean);
 
   // Helper functions for image navigation
@@ -319,6 +319,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({
           isFullscreen ? "max-w-screen h-screen rounded-none" : "max-w-6xl h-[90vh] sm:h-[80vh]"
         )}
       >
+        <DialogTitle className="sr-only">Image Gallery for {destination.name}</DialogTitle>
+        <DialogDescription className="sr-only">View images of {destination.name}, {destination.state}</DialogDescription>
+        
         {/* Main gallery container */}
         <div className="relative flex flex-col h-full">
           {/* Close button - always visible */}
