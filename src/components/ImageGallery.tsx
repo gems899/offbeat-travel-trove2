@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { Destination } from '@/data/destinations';
 import { X, ChevronLeft, ChevronRight, Share2, Download, Heart, Info, ZoomIn, TrainFront, Hotel } from 'lucide-react';
@@ -37,6 +37,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
   const [allImages, setAllImages] = useState<string[]>([]);
   const [showTrainInfo, setShowTrainInfo] = useState(false);
   const [showHotelInfo, setShowHotelInfo] = useState(false);
+  const [scrollExpanded, setScrollExpanded] = useState(false);
+  const [lastScrollY, setLastScrollY] = useState(0);
+  const [scrollDirection, setScrollDirection] = useState<'up' | 'down'>('up');
+  const scrollRef = useRef<HTMLDivElement>(null);
   
   // Comprehensive train data from Delhi for all destinations
   const trainData: Record<string, TrainInfo[]> = {
@@ -211,16 +215,53 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
     }
   }, [destination]);
   
-  // Reset current image index when modal opens
+  // Reset current image index and scroll state when modal opens
   useEffect(() => {
     if (isOpen) {
       setCurrentImageIndex(0);
-      setShowInfo(true); // Show info by default
+      setShowInfo(true);
       setIsZoomed(false);
       setShowTrainInfo(false);
       setShowHotelInfo(false);
+      setScrollExpanded(false);
+      setLastScrollY(0);
+      setScrollDirection('up');
     }
   }, [isOpen, destination]);
+
+  // Handle scroll events to control image expansion/contraction
+  useEffect(() => {
+    if (!isOpen || !scrollRef.current) return;
+
+    const handleScroll = () => {
+      if (!scrollRef.current) return;
+      
+      const currentScrollY = scrollRef.current.scrollTop;
+      
+      // Determine scroll direction
+      if (currentScrollY > lastScrollY + 10) {
+        setScrollDirection('down');
+      } else if (currentScrollY < lastScrollY - 10) {
+        setScrollDirection('up');
+      }
+      
+      // Update scroll state based on direction and threshold
+      if (scrollDirection === 'down' && currentScrollY > 50) {
+        setScrollExpanded(true);
+      } else if (scrollDirection === 'up' && currentScrollY < 200) {
+        setScrollExpanded(false);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    const scrollElement = scrollRef.current;
+    scrollElement.addEventListener('scroll', handleScroll);
+    
+    return () => {
+      scrollElement.removeEventListener('scroll', handleScroll);
+    };
+  }, [isOpen, lastScrollY, scrollDirection]);
   
   const handleNext = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -350,10 +391,37 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
           <X className="h-5 w-5" />
         </button>
         
-        <div className="flex flex-col items-center max-h-[90vh] overflow-y-auto">
-          {/* Main Image Container */}
-          <div className="relative w-full h-[50vh] flex items-center justify-center bg-gradient-to-br from-gray-800 to-black bg-opacity-80 overflow-hidden">
+        <div 
+          ref={scrollRef}
+          className="flex flex-col items-center max-h-[90vh] overflow-y-auto"
+        >
+          {/* Main Image Container - Dynamic height based on scroll */}
+          <div 
+            className={`relative w-full flex items-center justify-center bg-gradient-to-br from-gray-800 to-black bg-opacity-80 overflow-hidden transition-all duration-500 ease-in-out ${
+              scrollExpanded ? 'h-[90vh]' : 'h-[50vh]'
+            }`}
+          >
             <div className="absolute inset-0 opacity-20 bg-gradient-to-br from-gray-900 to-black" />
+            
+            {/* Scroll indicator - only visible when collapsed */}
+            {!scrollExpanded && (
+              <div className="absolute bottom-4 left-1/2 -translate-x-1/2 animate-bounce text-white/80 text-xs flex flex-col items-center z-30">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                <span className="mt-1">Scroll down to expand</span>
+              </div>
+            )}
+            
+            {/* Scroll up indicator - only visible when expanded */}
+            {scrollExpanded && (
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 animate-bounce text-white/80 text-xs flex flex-col items-center z-30">
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />
+                </svg>
+                <span className="mt-1">Scroll up to minimize</span>
+              </div>
+            )}
             
             {/* Main image with zoom effect */}
             <div 
@@ -365,7 +433,9 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
               <img 
                 src={allImages[currentImageIndex]} 
                 alt={`${destination.name} - Image ${currentImageIndex + 1}`}
-                className="max-h-[50vh] max-w-full object-contain mx-auto transition-opacity duration-300"
+                className={`object-contain mx-auto transition-all duration-500 ${
+                  scrollExpanded ? 'max-h-[85vh] max-w-full' : 'max-h-[50vh] max-w-full'
+                }`}
                 onError={(e) => {
                   const target = e.target as HTMLImageElement;
                   target.onerror = null;
@@ -396,8 +466,10 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
             )}
           </div>
           
-          {/* Footer with Caption and Controls */}
-          <div className={`w-full p-5 bg-gradient-to-r ${getGradient(destination.state)} text-white`}>
+          {/* Footer with Caption and Controls - Hidden when image is expanded */}
+          <div className={`w-full p-5 bg-gradient-to-r ${getGradient(destination.state)} text-white transition-all duration-500 ease-in-out ${
+            scrollExpanded ? 'opacity-0 h-0 overflow-hidden p-0' : 'opacity-100'
+          }`}>
             <div className="flex flex-col sm:flex-row justify-between items-start mb-4">
               <div className="mb-3 sm:mb-0 max-w-2xl">
                 <h2 className="text-2xl font-semibold mb-1">{destination.name}</h2>
@@ -652,6 +724,15 @@ const ImageGallery: React.FC<ImageGalleryProps> = ({ destination, isOpen, onClos
               </div>
             </div>
           </div>
+          
+          {/* Additional content placeholder for scrolling - only visible when expanded */}
+          {scrollExpanded && (
+            <div className="w-full p-8 bg-gradient-to-t from-black to-transparent">
+              <div className="text-center text-white/80 animate-fadeIn">
+                <p className="text-sm mb-6">Scroll up to return to gallery options</p>
+              </div>
+            </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
