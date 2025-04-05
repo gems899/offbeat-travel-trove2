@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -73,7 +72,18 @@ const Index: React.FC = () => {
     
     // Add keyboard navigation for gallery
     const handleKeydown = (e: KeyboardEvent) => {
+      // We need to check if there's a fullscreen element first
+      const fullscreenElement = document.querySelector('[aria-label="Exit Fullscreen"]');
+      
       if (e.key === 'Escape') {
+        // Only handle ESC key if there's a fullscreen gallery element
+        if (fullscreenElement) {
+          e.preventDefault();
+          (fullscreenElement as HTMLButtonElement).click();
+          return;
+        }
+        
+        // Otherwise, let the Dialog component handle ESC for closing
         const closeButtons = document.querySelectorAll('[aria-label="Close"]');
         if (closeButtons.length > 0) {
           (closeButtons[0] as HTMLButtonElement).click();
