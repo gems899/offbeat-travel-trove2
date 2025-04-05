@@ -43,10 +43,74 @@ const WeatherForecast: React.FC = () => {
     setBestTimeToVisit(getBestTimeToVisit(location));
   };
 
+  const container = {
+    hidden: { opacity: 0 },
+    show: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const item = {
+    hidden: { opacity: 0, y: 20 },
+    show: { opacity: 1, y: 0 }
+  };
+
   return (
-    <section id="weather" className="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black">
-      <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
-        <div className="text-center mb-10">
+    <section id="weather" className="py-16 sm:py-24 bg-gradient-to-b from-gray-50 to-white dark:from-gray-900 dark:to-black relative overflow-hidden">
+      {/* Animated Weather Background Elements */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          className="absolute top-10 left-10 w-32 h-32 rounded-full bg-blue-500/5"
+          animate={{
+            scale: [1, 1.2, 1],
+            x: [0, 10, 0],
+            y: [0, -10, 0],
+          }}
+          transition={{
+            duration: 15,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute top-1/3 right-1/4 w-64 h-64 rounded-full bg-indigo-500/5"
+          animate={{
+            scale: [1, 1.3, 1],
+            x: [0, -15, 0],
+            y: [0, 15, 0],
+          }}
+          transition={{
+            duration: 20,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+        <motion.div 
+          className="absolute bottom-1/4 right-10 w-40 h-40 rounded-full bg-purple-500/5"
+          animate={{
+            scale: [1, 1.1, 1],
+            x: [0, -5, 0],
+            y: [0, -10, 0],
+          }}
+          transition={{
+            duration: 18,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        />
+      </div>
+      
+      <div className="container px-4 sm:px-6 lg:px-8 mx-auto relative z-10">
+        <motion.div 
+          className="text-center mb-10"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
+        >
           <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider text-blue-600 uppercase rounded-full bg-blue-100 dark:bg-blue-900 dark:text-blue-200">
             Plan Your Trip
           </span>
@@ -56,10 +120,19 @@ const WeatherForecast: React.FC = () => {
           <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
             Check the weather conditions at your destination to plan the perfect trip
           </p>
-        </div>
+        </motion.div>
 
-        <div className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden">
-          <div className="p-6">
+        <motion.div 
+          className="max-w-4xl mx-auto bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden"
+          variants={container}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true }}
+        >
+          <motion.div 
+            className="p-6"
+            variants={item}
+          >
             <WeatherSearch 
               searchQuery={searchQuery}
               selectedLocation={selectedLocation}
@@ -70,10 +143,10 @@ const WeatherForecast: React.FC = () => {
 
             {weatherData ? (
               <motion.div 
+                className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6"
                 initial={{ opacity: 0, y: 20 }} 
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
-                className="bg-gray-50 dark:bg-gray-900 rounded-lg p-6"
               >
                 <CurrentWeather 
                   weatherData={weatherData} 
@@ -87,8 +160,8 @@ const WeatherForecast: React.FC = () => {
             ) : (
               <WeatherPlaceholder />
             )}
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </div>
     </section>
   );
