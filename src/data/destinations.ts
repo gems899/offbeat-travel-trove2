@@ -13,7 +13,7 @@ export interface Accommodation {
 }
 
 export interface Transport {
-  type: 'train' | 'bus' | 'flight' | 'taxi';
+  type: 'train' | 'bus' | 'flight' | 'taxi' | 'ferry';
   name: string;
   from: string;
   details: string;
@@ -684,3 +684,15 @@ export const destinations: Destination[] = [
     ]
   }
 ];
+
+export const getActivityById = (id: string): Activity | undefined => {
+  return activities.find(activity => activity.id === id);
+};
+
+export const states: string[] = Array.from(
+  new Set(destinations.map(destination => destination.state))
+).sort();
+
+export const getDestinationsByState = (state: string): Destination[] => {
+  return destinations.filter(destination => destination.state === state);
+};

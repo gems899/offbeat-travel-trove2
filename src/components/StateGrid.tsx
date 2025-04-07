@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { states, getDestinationsByState } from '@/data/destinations';
 import DestinationCard from './DestinationCard';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Filter, Map, Search, Download } from 'lucide-react';
+import { Filter, Map, Search, Heart } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
@@ -15,7 +14,6 @@ const StateGrid: React.FC = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   
-  // Filter states based on search query
   const filteredStates = states.filter(state => 
     searchQuery === '' || state.toLowerCase().includes(searchQuery.toLowerCase())
   );
@@ -29,18 +27,29 @@ const StateGrid: React.FC = () => {
   };
   
   const handleDownloadGuide = () => {
-    // This would typically create and download a PDF or other document
     toast.success("Travel guide is being prepared for download", {
       description: "Your guide for " + (selectedState || "all states") + " will be ready soon!",
       duration: 5000,
     });
     
-    // Simulate download delay
     setTimeout(() => {
       toast.success("Download complete!", {
         description: "Your travel guide has been downloaded successfully.",
       });
     }, 3000);
+  };
+
+  const handleAddToWishlist = () => {
+    toast.success("Added to your travel wishlist", {
+      description: selectedState 
+        ? `${selectedState} has been added to your travel wishlist!` 
+        : "All featured destinations have been added to your wishlist!",
+      duration: 5000,
+      action: {
+        label: "View Wishlist",
+        onClick: () => toast.info("Wishlist feature coming soon!")
+      },
+    });
   };
 
   const toggleSearch = () => {
@@ -50,7 +59,6 @@ const StateGrid: React.FC = () => {
     }
   };
   
-  // This would create a download file for the website code
   const handleDownloadCode = () => {
     toast.info("This website's code can be downloaded from GitHub", {
       description: "Check README.md for instructions on running this project locally.",
@@ -62,7 +70,6 @@ const StateGrid: React.FC = () => {
     });
   };
   
-  // Reset animation state if selectedState changes
   useEffect(() => {
     setIsAnimating(false);
   }, [selectedState]);
@@ -81,7 +88,6 @@ const StateGrid: React.FC = () => {
           </p>
         </div>
         
-        {/* Search and filter controls */}
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div className="flex items-center gap-2">
             <Button 
@@ -122,15 +128,14 @@ const StateGrid: React.FC = () => {
               variant="ghost"
               size="sm"
               className="text-gray-500 hover:text-primary"
-              onClick={handleDownloadCode}
+              onClick={handleAddToWishlist}
             >
-              <Map size={16} className="mr-2" />
-              Get Website Code
+              <Heart size={16} className="mr-2" />
+              Add to Wishlist
             </Button>
           </div>
         </div>
         
-        {/* Search input (conditionally rendered) */}
         <AnimatePresence>
           {showSearch && (
             <motion.div 
@@ -151,7 +156,6 @@ const StateGrid: React.FC = () => {
           )}
         </AnimatePresence>
         
-        {/* State selector with enhanced animations */}
         <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
           {filteredStates.map((state) => (
             <motion.button
@@ -176,7 +180,6 @@ const StateGrid: React.FC = () => {
           )}
         </div>
         
-        {/* Destinations Grid with improved animations */}
         <AnimatePresence mode="wait">
           <motion.div 
             key={selectedState || 'empty'}
@@ -203,7 +206,6 @@ const StateGrid: React.FC = () => {
               </motion.div>
             ))}
             
-            {/* Show message if no state is selected */}
             {!selectedState && !isAnimating && (
               <motion.div 
                 className="col-span-full flex flex-col items-center justify-center text-center p-8 rounded-xl"
@@ -232,7 +234,6 @@ const StateGrid: React.FC = () => {
                   size="lg" 
                   className="mt-6 group"
                   onClick={() => {
-                    // Randomly select a state
                     const randomState = states[Math.floor(Math.random() * states.length)];
                     setSelectedState(randomState);
                   }}
