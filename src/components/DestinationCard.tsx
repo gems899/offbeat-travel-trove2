@@ -1,10 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
 import { Destination, getActivityById } from '@/data/destinations';
-import { MapPin, Heart } from 'lucide-react';
+import { MapPin, Heart, Hotel, Train } from 'lucide-react';
 import ActivityTag from './ActivityTag';
 import { cn } from '@/lib/utils';
 import ImageGallery from './ImageGallery';
+import AccommodationInfo from './AccommodationInfo';
+import TransportInfo from './TransportInfo';
+import { motion, AnimatePresence } from 'framer-motion';
 
 interface DestinationCardProps {
   destination: Destination;
@@ -17,8 +20,9 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
   const [isLiked, setIsLiked] = useState(false);
   const [imageLoaded, setImageLoaded] = useState(false);
   const [imageSrc, setImageSrc] = useState(destination.image);
+  const [showAccommodation, setShowAccommodation] = useState(false);
+  const [showTransport, setShowTransport] = useState(false);
   
-  // Handle image loading and fallbacks
   useEffect(() => {
     const img = new Image();
     img.onload = () => setImageLoaded(true);
@@ -36,6 +40,18 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
   const toggleLike = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsLiked(!isLiked);
+  };
+
+  const toggleAccommodation = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowAccommodation(!showAccommodation);
+    if (showTransport) setShowTransport(false);
+  };
+
+  const toggleTransport = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setShowTransport(!showTransport);
+    if (showAccommodation) setShowAccommodation(false);
   };
 
   // Determine gradient based on state name (for visual variety)
@@ -89,7 +105,7 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
           
           {/* State Badge */}
-          <div className={`absolute top-3 left-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${getGradient(destination.state)} text-white`}>
+          <div className={`absolute top-3 left-3 inline-flex items-center px-2 py-1 rounded-full text-xs font-semibold bg-gradient-to-r ${getGradient(destination.state)} text-white shadow-sm`}>
             <MapPin className="mr-1 h-3 w-3 text-white" />
             {destination.state}
           </div>
@@ -97,14 +113,16 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
         
         {/* Content */}
         <div className="p-4 sm:p-5">
-          <h3 className="text-xl font-bold mb-2 text-balance bg-gradient-to-br from-gray-800 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">{destination.name}</h3>
+          <h3 className="text-xl font-bold mb-2 text-balance bg-gradient-to-br from-gray-800 to-gray-600 dark:from-white dark:to-gray-300 bg-clip-text text-transparent">
+            {destination.name}
+          </h3>
           
           <p className="text-sm text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
             {destination.description}
           </p>
           
           {/* Activities */}
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 mb-4">
             {destination.activities.slice(0, 3).map((activityId) => {
               const activity = getActivityById(activityId);
               return activity ? (
@@ -112,9 +130,46 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
               ) : null;
             })}
             {destination.activities.length > 3 && (
-              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-800 dark:text-purple-300">
+              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">
                 +{destination.activities.length - 3} more
               </span>
+            )}
+          </div>
+          
+          {/* Stay & Transport Buttons */}
+          <div className="flex space-x-2 mt-3">
+            {destination.accommodation && destination.accommodation.length > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleAccommodation}
+                className={cn(
+                  "flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
+                  showAccommodation 
+                    ? "bg-primary text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                )}
+              >
+                <Hotel className="mr-1.5 h-3.5 w-3.5" />
+                Stay Options
+              </motion.button>
+            )}
+            
+            {destination.transport && destination.transport.length > 0 && (
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleTransport}
+                className={cn(
+                  "flex items-center px-3 py-1.5 rounded-full text-xs font-medium transition-colors",
+                  showTransport 
+                    ? "bg-primary text-white" 
+                    : "bg-gray-100 text-gray-700 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                )}
+              >
+                <Train className="mr-1.5 h-3.5 w-3.5" />
+                How to Reach
+              </motion.button>
             )}
           </div>
 
@@ -124,6 +179,26 @@ const DestinationCard: React.FC<DestinationCardProps> = ({ destination, classNam
               View Gallery
             </span>
           </div>
+
+          {/* Accommodation Info */}
+          <AnimatePresence>
+            {destination.accommodation && (
+              <AccommodationInfo 
+                accommodations={destination.accommodation}
+                isOpen={showAccommodation}
+              />
+            )}
+          </AnimatePresence>
+
+          {/* Transport Info */}
+          <AnimatePresence>
+            {destination.transport && (
+              <TransportInfo 
+                transport={destination.transport}
+                isOpen={showTransport}
+              />
+            )}
+          </AnimatePresence>
         </div>
       </div>
       

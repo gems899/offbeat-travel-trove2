@@ -122,10 +122,10 @@ const WeatherPlaceholder: React.FC = () => {
       </div>
       
       <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-3">
-        Discover the Weather
+        Discover Hidden Gems Across India
       </h3>
       <p className="text-gray-600 dark:text-gray-300 max-w-md mx-auto mb-6">
-        Search for a destination above or select from the popular destinations to check the current weather conditions and plan your perfect trip.
+        Search for weather updates in India's most beautiful offbeat destinations
       </p>
       
       {/* Animated suggestions */}
@@ -159,11 +159,11 @@ const WeatherPlaceholder: React.FC = () => {
             ease: "easeInOut"
           }}
         >
-          Or explore "Chopta Valley" - Mini Switzerland of India
+          Or explore "Dzüko Valley" - The Valley of Flowers of Northeast
         </motion.div>
         
         <motion.div 
-          className="block text-emerald-500 dark:text-emerald-400 text-sm font-medium mt-1"
+          className="block text-emerald-500 dark:text-emerald-400 text-sm font-medium"
           initial={{ opacity: 0 }}
           animate={{ 
             opacity: [0.6, 1, 0.6],
@@ -176,11 +176,11 @@ const WeatherPlaceholder: React.FC = () => {
             ease: "easeInOut"
           }}
         >
-          Check weather for "Malana" - The ancient village
+          Check weather for "Sunderbans" - Home of the Royal Bengal Tiger
         </motion.div>
         
         <motion.div 
-          className="block text-purple-500 dark:text-purple-400 text-sm font-medium mt-1"
+          className="block text-purple-500 dark:text-purple-400 text-sm font-medium"
           initial={{ opacity: 0 }}
           animate={{ 
             opacity: [0.6, 1, 0.6],
@@ -193,7 +193,24 @@ const WeatherPlaceholder: React.FC = () => {
             ease: "easeInOut"
           }}
         >
-          Discover "Sunderbans" - Home of the Royal Bengal Tiger
+          Discover "Lambasingi" - The Kashmir of Andhra Pradesh
+        </motion.div>
+        
+        <motion.div 
+          className="block text-amber-500 dark:text-amber-400 text-sm font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 2.5,
+            delay: 2,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Explore "Majuli Island" - World's largest river island
         </motion.div>
       </div>
     </motion.div>

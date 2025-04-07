@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -5,9 +6,11 @@ import StateGrid from '@/components/StateGrid';
 import Exploration from '@/components/Exploration';
 import WeatherForecast from '@/components/WeatherForecast';
 import Footer from '@/components/Footer';
+import PopularTransport from '@/components/PopularTransport';
 import { Info, X } from 'lucide-react';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
+import { motion } from 'framer-motion';
 
 const Index: React.FC = () => {
   const [showTip, setShowTip] = useState(false);
@@ -45,7 +48,7 @@ const Index: React.FC = () => {
     // Show welcome toast with delay
     setTimeout(() => {
       toast.success("Welcome to Offbeat Travel Trove!", {
-        description: "Discover hidden gems across India's diverse states and territories.",
+        description: "Discover hidden gems across India with travel & accommodation details.",
         duration: 5000,
       });
     }, 1000);
@@ -141,12 +144,18 @@ const Index: React.FC = () => {
       <main className="flex-grow relative">
         <Hero />
         <StateGrid />
+        <PopularTransport />
         <WeatherForecast />
         <Exploration />
         
         {/* Download tip notification */}
         {showTip && (
-          <div className="fixed bottom-4 right-4 max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50 animate-fade-in">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed bottom-4 right-4 max-w-sm bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 p-4 z-50"
+          >
             <div className="flex items-start">
               <div className="flex-shrink-0">
                 <Info className="h-5 w-5 text-blue-500" />
@@ -183,7 +192,7 @@ const Index: React.FC = () => {
                 <X className="h-5 w-5" />
               </button>
             </div>
-          </div>
+          </motion.div>
         )}
       </main>
       <Footer />
