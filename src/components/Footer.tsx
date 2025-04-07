@@ -1,7 +1,14 @@
 import React from 'react';
-import DownloadHelper from './DownloadHelper';
+import { toast } from 'sonner';
+import { Instagram, Twitter, Github, HeartHandshake, Mail } from 'lucide-react';
 
 const Footer: React.FC = () => {
+  const handleSocialClick = (platform: string) => {
+    toast.info(`${platform} integration coming soon!`, {
+      description: "We're working on our social media presence."
+    });
+  };
+
   return (
     <footer className="bg-gray-100 dark:bg-gray-800 py-8 sm:py-12 border-t border-gray-200 dark:border-gray-700">
       <div className="container px-4 sm:px-6 lg:px-8 mx-auto">
@@ -12,32 +19,56 @@ const Footer: React.FC = () => {
             </p>
           </div>
           <div className="flex space-x-4 justify-center sm:justify-start">
-            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
-              <svg fill="currentColor" viewBox="0 0 24 24" className="h-5 w-5">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.268-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.205.012-3.584.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.354 0-3.749.013-5.031.078-3.065.14-4.878 1.952-5.019 5.02-.064 1.282-.077 1.777-.077 5.02 0 3.244.013 3.739.077 5.02.141 3.065 1.951 4.878 5.02 5.019 1.282.065 1.777.077 5.02.077 3.244 0 3.739-.013 5.02-.077 3.065-.141 4.878-1.952 5.019-5.02.064-1.282.077-1.777.077-5.02 0-3.244-.013-3.739-.077-5.02-.141-3.065-1.951-4.878-5.02-5.019-1.282-.065-1.777-.077-5.02-.077z"></path>
-                <path d="M12 5.813c-3.197 0-5.783 2.585-5.783 5.783 0 3.197 2.586 5.783 5.783 5.783 3.196 0 5.783-2.586 5.783-5.783 0-3.198-2.587-5.783-5.783-5.783zm0 9.583a3.8 3.8 0 1 1 0-7.6 3.8 3.8 0 0 1 0 7.6z"></path>
-                <path d="M19.784 4.557a1.096 1.096 0 0 1-1.548 0l-.007-.007c-.428-.428-.913-.688-1.44-.746 1.184-.893 2.476-1.482 3.86-1.482 3.354 0 3.749.013 5.031.078 3.065.14 4.878 1.952 5.019 5.02.064 1.282.077 1.777.077 5.02 0 3.244-.013 3.739-.077 5.02-.141 3.065-1.952 4.878-5.02 5.019-1.282.065-1.777.077-5.02.077-1.383 0-2.676-.589-3.86-1.482.527-.058 1.012-.318 1.44-.746l.007-.007a1.096 1.096 0 0 1 0-1.548l-.007-.007c-.428-.428-.913-.688-1.44-.746 1.184-.893 2.476-1.482 3.86-1.482 3.354 0 3.749.013 5.031.078 3.065.14 4.878 1.952 5.019 5.02.064 1.282.077 1.777.077 5.02 0 3.244-.013 3.739-.077 5.02-.141 3.065-1.952 4.878-5.02 5.019-1.282.065-1.777.077-5.02.077-1.383 0-2.676-.589-3.86-1.482.527-.058 1.012-.318 1.44-.746l.007-.007a1.096 1.096 0 0 1 0-1.548l-.007-.007c-.428-.428-.913-.688-1.44-.746 1.184-.893 2.476-1.482 3.86-1.482 3.354 0 3.749.013 5.031.078 3.065.14 4.878 1.952 5.019 5.02.064 1.282.077 1.777.077 5.02 0 3.244-.013 3.739-.077 5.02-.141 3.065-1.952 4.878-5.02 5.019-1.282.065-1.777.077-5.02.077-1.383 0-2.676-.589-3.86-1.482.527-.058 1.012-.318 1.44-.746l.007-.007a1.096 1.096 0 0 1 0-1.548z"></path>
-              </svg>
-            </a>
-            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
-              <svg fill="currentColor" viewBox="0 0 24 24" className="h-5 w-5">
-                <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.74.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 7.69 5.34 6.13 3.23 4.21c-.37.63-.58 1.35-.58 2.12 0 1.48.75 2.79 1.91 3.56-.71-.02-1.39-.22-2-.58v.05c0 2.07 1.44 3.8 3.35 4.19-.61.17-1.27.26-1.94.26-.28 0-.55-.03-.81-.08.56 1.72 2.2 2.98 4.1 3.02-1.43 1.11-3.21 1.72-5.18 1.72-.34 0-.68-.02-1.02-.06 1.98 1.28 4.32 2.04 6.83 2.04C3.95 21.99 6.22 22 8.76 22c10.6 0 16.35-8.73 16.35-16.29 0-.24-.02-.48-.04-.73.9-.65 1.7-1.47 2.32-2.41z"></path>
-              </svg>
-            </a>
-            <a href="#" className="text-gray-500 hover:text-primary transition-colors">
-              <svg fill="currentColor" viewBox="0 0 24 24" className="h-5 w-5">
-                <path d="M20.947 8.31a4.79 4.79 0 0 0-.44-.98c-.54-.94-1.25-1.71-2.12-2.3-.62-.41-1.33-.73-2.15-.91-.61-.13-1.23-.2-1.88-.22h-.02C13.53 4 13 4.54 13 5.31v.7c0 1.53.04 2.79.08 3.72.01.22.02.43.02.63 0 .2-.01.41-.02.63-.04.93-.08 2.2-.08 3.72v.72c0 .77.53 1.31 1.3 1.31.65 0 1.27-.07 1.88-.2h.02c.82-.18 1.53-.5 2.15-.91.87-.59 1.58-1.36 2.12-2.3.32-.56.4-.74.44-.98.07-.14.12-.31.15-.5.03-.2.04-.4.04-.6v-.02c0-.21-.01-.41-.04-.6-.03-.19-.08-.36-.15-.5zm-1.18 7.1c-.02.19-.03.4-.03.6v.6c0 .49-.39.88-.88.88h-.02c-.49 0-.88-.39-.88-.88v-.6c0-.2 0-.41.03-.6.03-.19.07-.36.14-.53.37-.84.96-1.43 1.81-1.81.17-.07.34-.11.53-.14.19-.02.4-.03.6-.03h.6c.2 0 .41.01.6.03.19.03.36.07.53.14.85.38 1.44.97 1.81 1.81.07.17.11.34.14.53zm-3.44-6.15c.02-.19.03-.4.03-.6v-.6c0-.49.39-.88.88-.88h.02c.49 0 .88.39.88.88v.6c0 .2 0 .41-.03.6-.03.19-.07.36-.14.53-.37.84-.96 1.43-1.81 1.81-.17.07-.34.11-.53.14-.19.02-.4.03-.6.03h-.6c-.2 0-.41-.01-.6-.03-.19-.03-.36-.07-.53-.14-.85-.38-1.44-.97-1.81-1.81-.07-.17-.11-.34-.14-.53zm4.59 4.15a4.15 4.15 0 1 1-8.3 0 4.15 4.15 0 0 1 8.3 0z"></path>
-              </svg>
-            </a>
+            <button 
+              onClick={() => handleSocialClick("Instagram")}
+              className="text-gray-500 hover:text-primary transition-colors"
+              aria-label="Instagram"
+            >
+              <Instagram className="h-5 w-5" />
+            </button>
+            <button 
+              onClick={() => handleSocialClick("Twitter")}
+              className="text-gray-500 hover:text-primary transition-colors"
+              aria-label="Twitter"
+            >
+              <Twitter className="h-5 w-5" />
+            </button>
+            <button 
+              onClick={() => handleSocialClick("Github")}
+              className="text-gray-500 hover:text-primary transition-colors"
+              aria-label="Github"
+            >
+              <Github className="h-5 w-5" />
+            </button>
           </div>
         </div>
         
-        {/* Add the Download Helper button */}
         <div className="mt-8 text-center">
-          <DownloadHelper />
-          <p className="mt-4 text-sm text-gray-500 dark:text-gray-400">
-            Want to run this website on your local machine? Click the button above for instructions.
-          </p>
+          <div className="bg-white dark:bg-gray-800/50 p-6 rounded-lg shadow-sm max-w-lg mx-auto">
+            <div className="flex items-center justify-center mb-3 text-primary">
+              <Mail className="h-6 w-6 mr-2" />
+              <HeartHandshake className="h-6 w-6" />
+            </div>
+            <h3 className="text-lg font-semibold mb-2">Stay Connected</h3>
+            <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+              Get updates on new hidden gems and travel tips from across India
+            </p>
+            <div className="flex gap-2">
+              <input 
+                type="email"
+                placeholder="Enter your email"
+                className="flex-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              />
+              <button 
+                className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
+                onClick={() => toast.success("Thank you for subscribing!", {
+                  description: "You'll receive updates on new destinations soon."
+                })}
+              >
+                Subscribe
+              </button>
+            </div>
+          </div>
         </div>
         
         <div className="mt-8 text-center">

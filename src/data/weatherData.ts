@@ -1,4 +1,3 @@
-
 export type WeatherCondition = 'sunny' | 'cloudy' | 'rainy' | 'snowy' | 'windy';
 
 export interface WeatherData {
@@ -198,6 +197,76 @@ export const weatherDatabase: Record<string, WeatherData> = {
       { day: 'Thursday', condition: 'cloudy', highTemp: 9, lowTemp: 2 },
       { day: 'Friday', condition: 'sunny', highTemp: 11, lowTemp: 3 }
     ]
+  },
+  'Lambasingi, Andhra Pradesh': {
+    location: 'Lambasingi, Andhra Pradesh',
+    condition: 'cloudy',
+    temperature: 18,
+    humidity: 75,
+    windSpeed: 10,
+    forecast: [
+      { day: 'Today', condition: 'cloudy', highTemp: 18, lowTemp: 10 },
+      { day: 'Tomorrow', condition: 'cloudy', highTemp: 19, lowTemp: 11 },
+      { day: 'Wednesday', condition: 'sunny', highTemp: 21, lowTemp: 12 },
+      { day: 'Thursday', condition: 'sunny', highTemp: 22, lowTemp: 13 },
+      { day: 'Friday', condition: 'rainy', highTemp: 17, lowTemp: 9 }
+    ]
+  },
+  'Dzüko Valley, Nagaland': {
+    location: 'Dzüko Valley, Nagaland',
+    condition: 'sunny',
+    temperature: 16,
+    humidity: 65,
+    windSpeed: 8,
+    forecast: [
+      { day: 'Today', condition: 'sunny', highTemp: 16, lowTemp: 7 },
+      { day: 'Tomorrow', condition: 'cloudy', highTemp: 15, lowTemp: 6 },
+      { day: 'Wednesday', condition: 'rainy', highTemp: 14, lowTemp: 5 },
+      { day: 'Thursday', condition: 'cloudy', highTemp: 16, lowTemp: 7 },
+      { day: 'Friday', condition: 'sunny', highTemp: 17, lowTemp: 8 }
+    ]
+  },
+  'Chopta, Uttarakhand': {
+    location: 'Chopta, Uttarakhand',
+    condition: 'sunny',
+    temperature: 10,
+    humidity: 55,
+    windSpeed: 12,
+    forecast: [
+      { day: 'Today', condition: 'sunny', highTemp: 10, lowTemp: 2 },
+      { day: 'Tomorrow', condition: 'sunny', highTemp: 11, lowTemp: 3 },
+      { day: 'Wednesday', condition: 'cloudy', highTemp: 9, lowTemp: 1 },
+      { day: 'Thursday', condition: 'snowy', highTemp: 5, lowTemp: -2 },
+      { day: 'Friday', condition: 'cloudy', highTemp: 8, lowTemp: 0 }
+    ]
+  },
+  'Saputara, Gujarat': {
+    location: 'Saputara, Gujarat',
+    condition: 'cloudy',
+    temperature: 22,
+    humidity: 60,
+    windSpeed: 8,
+    forecast: [
+      { day: 'Today', condition: 'cloudy', highTemp: 22, lowTemp: 15 },
+      { day: 'Tomorrow', condition: 'rainy', highTemp: 20, lowTemp: 14 },
+      { day: 'Wednesday', condition: 'rainy', highTemp: 21, lowTemp: 15 },
+      { day: 'Thursday', condition: 'cloudy', highTemp: 23, lowTemp: 16 },
+      { day: 'Friday', condition: 'sunny', highTemp: 25, lowTemp: 17 }
+    ]
+  },
+  'Sunderbans, West Bengal': {
+    location: 'Sunderbans, West Bengal',
+    condition: 'sunny',
+    temperature: 30,
+    humidity: 78,
+    windSpeed: 7,
+    forecast: [
+      { day: 'Today', condition: 'sunny', highTemp: 30, lowTemp: 22 },
+      { day: 'Tomorrow', condition: 'cloudy', highTemp: 29, lowTemp: 21 },
+      { day: 'Wednesday', condition: 'rainy', highTemp: 28, lowTemp: 21 },
+      { day: 'Thursday', condition: 'rainy', highTemp: 27, lowTemp: 20 },
+      { day: 'Friday', condition: 'cloudy', highTemp: 29, lowTemp: 21 }
+    ]
   }
 };
 
@@ -207,7 +276,11 @@ export const popularDestinations = [
   'Sandakphu, West Bengal',
   'Chitkul, Himachal Pradesh',
   'Majuli, Assam',
-  'Dzukou Valley, Nagaland'
+  'Dzüko Valley, Nagaland',
+  'Lambasingi, Andhra Pradesh',
+  'Chopta, Uttarakhand',
+  'Sunderbans, West Bengal',
+  'Saputara, Gujarat'
 ];
 
 // Calculate best time to visit based on location
@@ -239,6 +312,16 @@ export const getBestTimeToVisit = (location: string): string => {
       return 'March to June and September to November';
     case 'Sandakphu, West Bengal':
       return 'October to December and March to April';
+    case 'Lambasingi, Andhra Pradesh':
+      return 'November to February';
+    case 'Dzüko Valley, Nagaland':
+      return 'June to September';
+    case 'Chopta, Uttarakhand':
+      return 'April to June and September to November';
+    case 'Saputara, Gujarat':
+      return 'October to June';
+    case 'Sunderbans, West Bengal':
+      return 'October to March';
     default:
       return 'Varies seasonally';
   }

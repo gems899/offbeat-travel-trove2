@@ -73,7 +73,6 @@ export const activities: Activity[] = [
 ];
 
 export const destinations: Destination[] = [
-  // Original destinations
   {
     id: "valley-of-flowers",
     name: "Valley of Flowers",
@@ -414,4 +413,274 @@ export const destinations: Destination[] = [
     name: "Malana",
     state: "Himachal Pradesh",
     description: "Known for its unique culture and isolation, Malana is a tiny village with ancient customs, beautiful landscapes, and its own form of democracy. Its rugged beauty and serene environment make it a hidden treasure.",
-    image: "https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-1.2.1&auto=format&fit=crop&w
+    image: "https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["hiking", "rural", "photography", "scenic"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1474224017046-182ece80b263?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1484318571209-661cf29a69c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "sunderbans",
+    name: "Sunderbans",
+    state: "West Bengal",
+    description: "A UNESCO World Heritage site, the Sunderbans is home to the famous Royal Bengal Tiger and an intricate network of waterways, offering an adventurous and peaceful experience for wildlife enthusiasts and nature lovers.",
+    image: "https://images.unsplash.com/photo-1544998780-22c3f015e1a1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["wildlife", "boating", "photography", "tiger"],
+    accommodation: [
+      {
+        type: "resort",
+        name: "Sunderbans Tiger Camp",
+        description: "Eco-friendly resort with boat safaris and wildlife viewing decks",
+        priceRange: "₹5000-12000",
+        contact: "+91 9831123456"
+      },
+      {
+        type: "hotel",
+        name: "Sajnekhali Tourist Lodge",
+        description: "Government-run accommodation with basic amenities and great location",
+        priceRange: "₹2000-4000",
+        contact: "+91 3324732331"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Canning Local",
+        from: "Kolkata",
+        details: "Train to Canning, then boat to Sunderbans",
+        frequency: "Multiple departures daily",
+        duration: "1.5 hours + 2 hour boat ride",
+        fareRange: "₹20-40 + ₹250 for boat"
+      },
+      {
+        type: "bus",
+        name: "WBSTC Bus",
+        from: "Kolkata",
+        details: "Bus to Godkhali, then boat to Sunderbans",
+        frequency: "Daily morning departures",
+        duration: "3 hours + 1 hour boat ride",
+        fareRange: "₹120-180 + ₹250 for boat"
+      }
+    ]
+  },
+  {
+    id: "lambasingi",
+    name: "Lambasingi",
+    state: "Andhra Pradesh",
+    description: "Known as the 'Kashmir of Andhra,' Lambasingi is a quaint hill station with cool weather year-round, lush greenery, and breathtaking views of the Eastern Ghats, ideal for nature lovers and adventure seekers.",
+    image: "https://images.unsplash.com/photo-1513010072333-9fcd3735a59e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["hiking", "photography", "nature", "scenic"],
+    accommodation: [
+      {
+        type: "homestay",
+        name: "Lambasingi Valley Stay",
+        description: "Cozy homestay with local cuisine and warm hospitality",
+        priceRange: "₹1500-3000",
+        contact: "+91 9876543210"
+      },
+      {
+        type: "campsite",
+        name: "Eastern Ghats Camp",
+        description: "Outdoor camping experience with beautiful night sky views",
+        priceRange: "₹800-1500",
+        contact: "+91 8765432109"
+      }
+    ],
+    transport: [
+      {
+        type: "bus",
+        name: "APSRTC Service",
+        from: "Visakhapatnam",
+        details: "Bus to Chintapalle, then local transport to Lambasingi",
+        frequency: "Daily departures",
+        duration: "3-4 hours",
+        fareRange: "₹150-250"
+      },
+      {
+        type: "taxi",
+        name: "Shared/Private Taxi",
+        from: "Visakhapatnam",
+        details: "Direct taxi service to Lambasingi",
+        duration: "2.5-3 hours",
+        fareRange: "₹2000-3000"
+      }
+    ]
+  },
+  {
+    id: "dzuko-valley",
+    name: "Dzüko Valley",
+    state: "Nagaland",
+    description: "Known for its scenic beauty and the famous Dzüko Lily, this valley offers breathtaking views, trekking opportunities, and a peaceful environment, making it an offbeat haven for nature lovers and trekkers.",
+    image: "https://images.unsplash.com/photo-1635316494338-26d0707529b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["trekking", "photography", "nature", "scenic"],
+    accommodation: [
+      {
+        type: "guesthouse",
+        name: "Dzüko Valley Rest House",
+        description: "Basic accommodation at the valley with essential amenities",
+        priceRange: "₹800-1200",
+        contact: "+91 9436123456"
+      },
+      {
+        type: "campsite",
+        name: "Trekkers' Camp",
+        description: "Camping facilities with equipment rental available",
+        priceRange: "₹500-900",
+        contact: "+91 8732123456"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Dimapur Express",
+        from: "Guwahati",
+        details: "Train to Dimapur, then taxi to Kohima and trek to Dzüko",
+        frequency: "Daily service",
+        duration: "6-7 hours + 2-3 hour trek",
+        fareRange: "₹300-700 + ₹1500 for taxi"
+      },
+      {
+        type: "taxi",
+        name: "Shared Jeep",
+        from: "Kohima",
+        details: "Jeep to Viswema village, then trek to Dzüko Valley",
+        frequency: "Morning departures",
+        duration: "1.5 hours + 2-3 hour trek",
+        fareRange: "₹400-600"
+      }
+    ]
+  },
+  {
+    id: "chopta",
+    name: "Chopta",
+    state: "Uttarakhand",
+    description: "Often referred to as the 'Mini Switzerland of India,' Chopta offers breathtaking views of snow-capped peaks and is a perfect spot for trekking and camping, without the heavy crowds of other hill stations.",
+    image: "https://images.unsplash.com/photo-1627896157667-5b4f5aae4ae8?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["trekking", "camping", "photography", "scenic"],
+    accommodation: [
+      {
+        type: "campsite",
+        name: "Himalayan Eco Camp",
+        description: "Eco-friendly camping with excellent views of Kedarnath range",
+        priceRange: "₹1200-2500",
+        contact: "+91 9897123456"
+      },
+      {
+        type: "homestay",
+        name: "Chopta Valley Homestay",
+        description: "Comfortable rooms with home-cooked local cuisine",
+        priceRange: "₹1500-3000",
+        contact: "+91 7895123456"
+      }
+    ],
+    transport: [
+      {
+        type: "bus",
+        name: "Uttarakhand Roadways",
+        from: "Rishikesh",
+        details: "Bus to Ukhimath, then local taxi to Chopta",
+        frequency: "Daily morning service",
+        duration: "7-8 hours + 1 hour taxi",
+        fareRange: "₹350-500 + ₹800 for taxi"
+      },
+      {
+        type: "taxi",
+        name: "Private Taxi",
+        from: "Rishikesh/Dehradun",
+        details: "Direct taxi service to Chopta",
+        duration: "6-7 hours",
+        fareRange: "₹4000-6000"
+      }
+    ]
+  },
+  {
+    id: "saputara",
+    name: "Saputara",
+    state: "Gujarat",
+    description: "A quiet hill station located on the Gujarat-Maharashtra border, Saputara offers picturesque landscapes, boating, and a rich cultural experience with tribal art and culture, perfect for a relaxing weekend getaway.",
+    image: "https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["boating", "nature", "photography", "rural"],
+    accommodation: [
+      {
+        type: "hotel",
+        name: "Hotel Lake View",
+        description: "Comfortable accommodation with views of Saputara Lake",
+        priceRange: "₹2500-4500",
+        contact: "+91 9427123456"
+      },
+      {
+        type: "resort",
+        name: "Saputara Hill Resort",
+        description: "Luxury resort with modern amenities and recreational activities",
+        priceRange: "₹4000-8000",
+        contact: "+91 8329123456"
+      }
+    ],
+    transport: [
+      {
+        type: "bus",
+        name: "GSRTC Volvo",
+        from: "Ahmedabad/Surat",
+        details: "Direct bus service to Saputara",
+        frequency: "Daily departures",
+        duration: "5-6 hours from Surat, 8-9 hours from Ahmedabad",
+        fareRange: "₹300-700"
+      },
+      {
+        type: "train",
+        name: "Billimora-Waghai Train",
+        from: "Billimora Junction",
+        details: "Train to Waghai, then taxi to Saputara",
+        frequency: "Daily narrow gauge service",
+        duration: "2 hours + 1.5 hour taxi",
+        fareRange: "₹30-50 + ₹800 for taxi"
+      }
+    ]
+  },
+  {
+    id: "majuli-island",
+    name: "Majuli Island",
+    state: "Assam",
+    description: "The largest river island in the world, Majuli is a hub of Assamese culture, with ancient monasteries, traditional satras, and lush landscapes, offering a peaceful and spiritual experience far from the usual tourist spots.",
+    image: "https://images.unsplash.com/photo-1631631480669-535cc43f2327?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["boating", "rural", "spiritual", "photography"],
+    accommodation: [
+      {
+        type: "homestay",
+        name: "Mishing Tribal Homestay",
+        description: "Authentic experience in traditional bamboo houses on stilts",
+        priceRange: "₹800-1500",
+        contact: "+91 9435123456"
+      },
+      {
+        type: "guesthouse",
+        name: "La Maison de Anand",
+        description: "Boutique guesthouse with cultural experiences and river views",
+        priceRange: "₹1500-3000",
+        contact: "+91 9435987654"
+      }
+    ],
+    transport: [
+      {
+        type: "ferry",
+        name: "Government Ferry",
+        from: "Jorhat (Nimati Ghat)",
+        details: "Regular ferry service to Majuli",
+        frequency: "Multiple daily departures",
+        duration: "1-2 hours depending on water level",
+        fareRange: "₹15-30"
+      },
+      {
+        type: "train",
+        name: "Rajdhani/Shatabdi",
+        from: "Major cities",
+        details: "Train to Jorhat, then ferry to Majuli",
+        frequency: "Daily services to Jorhat",
+        duration: "Varies + 1-2 hour ferry",
+        fareRange: "₹800-3000 + ₹15-30 for ferry"
+      }
+    ]
+  }
+];

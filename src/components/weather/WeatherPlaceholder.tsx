@@ -27,7 +27,7 @@ const WeatherPlaceholder: React.FC = () => {
           <Cloud className="h-full w-full" />
         </motion.div>
         
-        {/* Mountain icon (fixed from Mountains) */}
+        {/* Mountain icon */}
         <motion.div 
           className="absolute -bottom-4 -left-2 text-indigo-400 dark:text-indigo-600"
           animate={{ 
@@ -211,6 +211,40 @@ const WeatherPlaceholder: React.FC = () => {
           }}
         >
           Explore "Majuli Island" - World's largest river island
+        </motion.div>
+        
+        <motion.div 
+          className="block text-rose-500 dark:text-rose-400 text-sm font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 2.8,
+            delay: 2.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Visit "Chopta" - The Mini Switzerland of Uttarakhand
+        </motion.div>
+        
+        <motion.div 
+          className="block text-yellow-500 dark:text-yellow-400 text-sm font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 3,
+            delay: 3,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Experience "Saputara" - Gujarat's only hill station
         </motion.div>
       </div>
     </motion.div>
