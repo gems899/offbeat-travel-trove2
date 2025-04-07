@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Cloud, ArrowUp, Wind, Thermometer, Mountains, Compass, MapPin } from 'lucide-react';
+import { Cloud, ArrowUp, Wind, Thermometer, Mountain, Compass, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const WeatherPlaceholder: React.FC = () => {
@@ -27,7 +27,7 @@ const WeatherPlaceholder: React.FC = () => {
           <Cloud className="h-full w-full" />
         </motion.div>
         
-        {/* Mountains icon */}
+        {/* Mountain icon (fixed from Mountains) */}
         <motion.div 
           className="absolute -bottom-4 -left-2 text-indigo-400 dark:text-indigo-600"
           animate={{ 
@@ -40,7 +40,7 @@ const WeatherPlaceholder: React.FC = () => {
             ease: "easeInOut"
           }}
         >
-          <Mountains className="h-8 w-8" />
+          <Mountain className="h-8 w-8" />
         </motion.div>
         
         {/* Compass icon */}
@@ -177,6 +177,23 @@ const WeatherPlaceholder: React.FC = () => {
           }}
         >
           Check weather for "Malana" - The ancient village
+        </motion.div>
+        
+        <motion.div 
+          className="block text-purple-500 dark:text-purple-400 text-sm font-medium mt-1"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 3,
+            delay: 1.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Discover "Sunderbans" - Home of the Royal Bengal Tiger
         </motion.div>
       </div>
     </motion.div>
