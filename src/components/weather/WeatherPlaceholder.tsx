@@ -246,6 +246,57 @@ const WeatherPlaceholder: React.FC = () => {
         >
           Experience "Saputara" - Gujarat's only hill station
         </motion.div>
+        
+        <motion.div 
+          className="block text-cyan-500 dark:text-cyan-400 text-sm font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 2.7,
+            delay: 3.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Explore "Gandikota" - The Grand Canyon of India
+        </motion.div>
+        
+        <motion.div 
+          className="block text-green-500 dark:text-green-400 text-sm font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 2.6,
+            delay: 4,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Visit "Mokokchung" - Experience the vibrant Ao Naga culture
+        </motion.div>
+        
+        <motion.div 
+          className="block text-red-500 dark:text-red-400 text-sm font-medium"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: [0.6, 1, 0.6],
+            y: [2, 0, 2]
+          }}
+          transition={{ 
+            duration: 2.9,
+            delay: 4.5,
+            repeat: Infinity,
+            ease: "easeInOut"
+          }}
+        >
+          Discover "Bhalka Tirth" - Sacred pilgrimage site in Gujarat
+        </motion.div>
       </div>
     </motion.div>
   );

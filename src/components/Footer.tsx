@@ -1,12 +1,33 @@
-import React from 'react';
+
+import React, { useState } from 'react';
 import { toast } from 'sonner';
-import { Instagram, Twitter, Github, HeartHandshake, Mail } from 'lucide-react';
+import { Instagram, Twitter, Github, HeartHandshake, Mail, Send } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const Footer: React.FC = () => {
+  const [email, setEmail] = useState('');
+  
   const handleSocialClick = (platform: string) => {
     toast.info(`${platform} integration coming soon!`, {
       description: "We're working on our social media presence."
     });
+  };
+  
+  const handleSubscribe = () => {
+    if (!email.trim()) {
+      toast.error("Please enter your email address");
+      return;
+    }
+    
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+    
+    toast.success("Thank you for subscribing!", {
+      description: "You'll receive updates on new destinations soon."
+    });
+    setEmail('');
   };
 
   return (
@@ -58,15 +79,16 @@ const Footer: React.FC = () => {
                 type="email"
                 placeholder="Enter your email"
                 className="flex-1 px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
-              <button 
+              <Button 
                 className="bg-primary hover:bg-primary/90 text-white px-4 py-2 rounded-md transition-colors"
-                onClick={() => toast.success("Thank you for subscribing!", {
-                  description: "You'll receive updates on new destinations soon."
-                })}
+                onClick={handleSubscribe}
               >
+                <Send className="h-4 w-4 mr-2" />
                 Subscribe
-              </button>
+              </Button>
             </div>
           </div>
         </div>

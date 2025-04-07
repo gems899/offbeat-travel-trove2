@@ -10,7 +10,7 @@ const PopularTransport: React.FC = () => {
     {
       type: 'train',
       title: 'Train Travel',
-      description: 'India's extensive rail network makes most offbeat destinations accessible with scenic journeys.',
+      description: "India's extensive rail network makes most offbeat destinations accessible with scenic journeys.",
       icon: <Train className="h-8 w-8" />,
       color: 'bg-blue-500',
       destinations: ['Araku Valley', 'Majuli Island', 'Chopta']

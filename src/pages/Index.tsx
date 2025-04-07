@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import Header from '@/components/Header';
 import Hero from '@/components/Hero';
@@ -15,7 +14,7 @@ import { motion } from 'framer-motion';
 const Index: React.FC = () => {
   const [showTip, setShowTip] = useState(false);
 
-  // Show tips about downloading after a delay
+  // Show tips about app features after a delay
   useEffect(() => {
     const tipTimer = setTimeout(() => {
       setShowTip(true);
@@ -116,22 +115,23 @@ const Index: React.FC = () => {
     };
   }, []);
 
-  // Create a function to explain how to download the code
-  const handleDownloadInfo = () => {
+  // Create a function to show travel tips
+  const handleTravelTips = () => {
     toast.info(
-      "How to run this website locally:",
+      "Travel Tips for Offbeat Destinations:",
       {
         duration: 10000,
         description: (
           <div className="space-y-2 text-sm">
-            <p>1. Clone the repository from GitHub</p>
-            <p>2. Install dependencies with <code className="bg-gray-100 px-1 rounded">npm install</code></p>
-            <p>3. Start the dev server with <code className="bg-gray-100 px-1 rounded">npm run dev</code></p>
-            <p>Full instructions are in the README.md file</p>
+            <p>1. Research local transport options before your journey</p>
+            <p>2. Pack appropriate clothing for sudden weather changes</p>
+            <p>3. Always carry some local currency for remote areas</p>
+            <p>4. Respect local customs and traditions</p>
+            <p>5. Try to book accommodations in advance during peak seasons</p>
           </div>
         ),
         action: {
-          label: "Dismiss",
+          label: "Thanks!",
           onClick: () => {}
         }
       }
@@ -148,7 +148,7 @@ const Index: React.FC = () => {
         <WeatherForecast />
         <Exploration />
         
-        {/* Download tip notification */}
+        {/* Travel Tips notification */}
         {showTip && (
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -162,18 +162,18 @@ const Index: React.FC = () => {
               </div>
               <div className="ml-3 w-0 flex-1">
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">
-                  Want to download this website?
+                  Planning your offbeat journey?
                 </p>
                 <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
-                  You can get the code from GitHub or click the button in the States section.
+                  Check out our essential travel tips for exploring hidden gems across India.
                 </p>
                 <div className="mt-3 flex space-x-2">
                   <Button
                     variant="default"
                     size="sm"
-                    onClick={handleDownloadInfo}
+                    onClick={handleTravelTips}
                   >
-                    Learn How
+                    View Tips
                   </Button>
                   <Button
                     variant="ghost"
