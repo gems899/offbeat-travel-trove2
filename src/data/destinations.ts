@@ -35,6 +35,10 @@ export const activities: Activity[] = [
   { id: "nature", name: "Nature Walks", icon: "leaf" },
   { id: "monastery", name: "Monastery Visits", icon: "heart" },
   { id: "scenic", name: "Scenic Views", icon: "mountain" },
+  { id: "fishing", name: "Fishing", icon: "fish" },
+  { id: "paragliding", name: "Paragliding", icon: "wind" },
+  { id: "skiing", name: "Skiing", icon: "snowflake" },
+  { id: "rural", name: "Rural Tourism", icon: "home" },
 ];
 
 export const destinations: Destination[] = [
@@ -98,9 +102,9 @@ export const destinations: Destination[] = [
     image: "https://images.unsplash.com/photo-1501286353178-1ec881214838?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
     activities: ["hiking", "food", "history"],
     galleryImages: [
-      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
-      "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+      "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
     ]
   },
   {
@@ -197,6 +201,123 @@ export const destinations: Destination[] = [
       "/images/namsai3.jpg",
       "/images/namsai4.jpg",
       "/images/namsai5.jpg"
+    ]
+  },
+  {
+    id: "tirthan-valley",
+    name: "Tirthan Valley",
+    state: "Himachal Pradesh",
+    description: "A hidden paradise perfect for nature lovers, offering serene landscapes and adventure activities like trekking and fishing. It's relatively untouched by mainstream tourism.",
+    image: "https://images.unsplash.com/photo-1580674684081-7617fbf3d745?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["hiking", "fishing", "nature", "photography"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1480497490787-505ec076689f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1464278533981-50e57c2b7d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "chopta-valley",
+    name: "Chopta Valley",
+    state: "Himachal Pradesh",
+    description: "Known as the 'Mini Switzerland of India,' Chopta is a tranquil spot with panoramic views of snow-capped peaks and lush meadows. It's ideal for trekkers seeking solitude away from crowds.",
+    image: "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["trekking", "photography", "scenic", "nature"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1464278533981-50e57c2b7d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1476297820623-03984cf5cdbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1483442868018-7dc426768b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "barot-valley",
+    name: "Barot Valley",
+    state: "Himachal Pradesh",
+    description: "Nestled in the Mandi district, Barot Valley is a peaceful retreat surrounded by dense forests, crystal-clear rivers, and quaint villages. It offers a perfect escape for nature lovers and offbeat travelers.",
+    image: "https://images.unsplash.com/photo-1483442868018-7dc426768b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["fishing", "camping", "photography", "nature"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1480497490787-505ec076689f?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1476297820623-03984cf5cdbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "narkanda",
+    name: "Narkanda",
+    state: "Himachal Pradesh",
+    description: "A charming hill station with stunning views of the Himalayas, Narkanda is less commercialized compared to Shimla, making it an excellent spot for skiing and nature walks.",
+    image: "https://images.unsplash.com/photo-1478496372813-e2e1744e5e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["skiing", "hiking", "photography", "scenic"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1476297820623-03984cf5cdbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1464278533981-50e57c2b7d1d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "kangra-valley",
+    name: "Kangra Valley",
+    state: "Himachal Pradesh",
+    description: "A blend of rich history and natural beauty, Kangra Valley is home to ancient temples, fortresses, and lush tea gardens, offering a quiet retreat away from the hustle and bustle.",
+    image: "https://images.unsplash.com/photo-1467377791767-c929b5dc9a23?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["history", "nature", "photography", "food"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1478496372813-e2e1744e5e04?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1483442868018-7dc426768b21?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "janjehli",
+    name: "Janjehli",
+    state: "Himachal Pradesh",
+    description: "Tucked in the Sirmaur district, Janjehli is a peaceful hill station that offers scenic treks, apple orchards, and panoramic views of the surrounding mountains, making it a great offbeat destination.",
+    image: "https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["hiking", "nature", "scenic", "photography"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1484318571209-661cf29a69c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1474224017046-182ece80b263?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "kullu-raison",
+    name: "Kullu's Raison",
+    state: "Himachal Pradesh",
+    description: "Located near Kullu, Raison is a quaint village that offers lush green landscapes, adventure sports like paragliding, and serene riverside camping, yet it remains largely unexplored.",
+    image: "https://images.unsplash.com/photo-1484318571209-661cf29a69c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["paragliding", "camping", "photography", "nature"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1474224017046-182ece80b263?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "shoja",
+    name: "Shoja",
+    state: "Himachal Pradesh",
+    description: "Shoja is a small, picturesque village nestled in the Shivalik ranges, offering peaceful walks through oak forests, stunning views of the Himalayas, and a chance to experience the simple rural life of Himachal.",
+    image: "https://images.unsplash.com/photo-1474224017046-182ece80b263?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["hiking", "rural", "photography", "scenic"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1484318571209-661cf29a69c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ]
+  },
+  {
+    id: "malana",
+    name: "Malana",
+    state: "Himachal Pradesh",
+    description: "Known for its unique culture and isolation, Malana is a tiny village with ancient customs, beautiful landscapes, and its own form of democracy. Its rugged beauty and serene environment make it a hidden treasure.",
+    image: "https://images.unsplash.com/photo-1481207727306-1a9f151fca7d?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+    activities: ["trekking", "history", "photography", "rural"],
+    galleryImages: [
+      "https://images.unsplash.com/photo-1484318571209-661cf29a69c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1474224017046-182ece80b263?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
+      "https://images.unsplash.com/photo-1477322524744-0eece9e79640?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
     ]
   }
 ];
