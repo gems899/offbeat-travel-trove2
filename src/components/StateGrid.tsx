@@ -1,9 +1,10 @@
+
 import React, { useState, useEffect } from 'react';
 import { states, getDestinationsByState } from '@/data/destinations';
 import DestinationCard from './DestinationCard';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Filter, Map, Search, Heart } from 'lucide-react';
+import { Filter, Map, Search, Heart, DownloadCloud } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
@@ -120,7 +121,7 @@ const StateGrid: React.FC = () => {
               onClick={handleDownloadGuide}
               disabled={!selectedState}
             >
-              <Download size={16} />
+              <DownloadCloud size={16} />
               Download Travel Guide
             </Button>
             
