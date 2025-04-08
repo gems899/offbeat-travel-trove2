@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Train, Bus, Plane, Car, Clock, Calendar, Banknote } from 'lucide-react';
+import { Train, Bus, Plane, Car, Clock, Calendar, Banknote, Ship } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Transport } from '@/data/destinations';
 
@@ -13,7 +13,8 @@ const transportIcons = {
   train: <Train className="w-5 h-5" />,
   bus: <Bus className="w-5 h-5" />,
   flight: <Plane className="w-5 h-5" />,
-  taxi: <Car className="w-5 h-5" />
+  taxi: <Car className="w-5 h-5" />,
+  ferry: <Ship className="w-5 h-5" />
 };
 
 const TransportInfo: React.FC<TransportInfoProps> = ({ transport, isOpen }) => {

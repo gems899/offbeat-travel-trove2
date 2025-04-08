@@ -180,6 +180,42 @@ export const destinations: Destination[] = [
       "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1469041797191-50ace28483c3?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1501286353178-1ec881214838?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ],
+    accommodation: [
+      {
+        type: "homestay",
+        name: "Spiti Heritage Homestay",
+        description: "Traditional mountain homestay with warm hospitality and home-cooked meals.",
+        priceRange: "₹1200-2500",
+        contact: "+91 9418273645"
+      },
+      {
+        type: "hotel",
+        name: "Himalayan Heights Hotel",
+        description: "Comfortable rooms with panoramic mountain views and modern amenities.",
+        priceRange: "₹3000-6000",
+        contact: "+91 9876123456"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Kalka-Shimla Train",
+        from: "Delhi/Chandigarh",
+        details: "Train to Shimla, then shared taxi to Spiti Valley",
+        frequency: "Daily service",
+        duration: "5-6 hours train + 10-12 hours road journey",
+        fareRange: "₹300-700 + ₹2500-3500"
+      },
+      {
+        type: "bus",
+        name: "HRTC Deluxe",
+        from: "Manali/Shimla",
+        details: "Direct bus service to Kaza (Spiti Valley)",
+        frequency: "Seasonal (Jun-Oct)",
+        duration: "12-16 hours",
+        fareRange: "₹500-1000"
+      }
     ]
   },
   {
@@ -193,6 +229,42 @@ export const destinations: Destination[] = [
       "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1458668383970-8ddd3927deed?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1504893524553-b855bce32c67?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ],
+    accommodation: [
+      {
+        type: "guesthouse",
+        name: "Dholavira Tourist Guesthouse",
+        description: "Basic, clean accommodation near the archaeological site with helpful staff.",
+        priceRange: "₹800-1500",
+        contact: "+91 9427654321"
+      },
+      {
+        type: "resort",
+        name: "Rann Retreat",
+        description: "Comfortable resort with traditional Kutchi decor and cultural experiences.",
+        priceRange: "₹2500-5000",
+        contact: "+91 9898765432"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Gujarat Express",
+        from: "Ahmedabad",
+        details: "Train to Bhuj, then local transport to Dholavira",
+        frequency: "Daily service",
+        duration: "8-10 hours + 4 hours local transport",
+        fareRange: "₹300-700 + ₹800-1200"
+      },
+      {
+        type: "bus",
+        name: "GSRTC Bus",
+        from: "Bhuj",
+        details: "Bus to Rapar, then local transport to Dholavira",
+        frequency: "Daily morning service",
+        duration: "3 hours + 2 hours local transport",
+        fareRange: "₹150-300 + ₹500-800"
+      }
     ]
   },
   {
@@ -206,6 +278,42 @@ export const destinations: Destination[] = [
       "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1482938289607-e9573fc25ebb?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ],
+    accommodation: [
+      {
+        type: "homestay",
+        name: "Khonoma Village Homestay",
+        description: "Traditional Naga homestay with authentic cultural experiences and local cuisine.",
+        priceRange: "₹1000-2000",
+        contact: "+91 9436012345"
+      },
+      {
+        type: "guesthouse",
+        name: "Green Village Lodge",
+        description: "Eco-friendly accommodation with stunning views of the terraced fields.",
+        priceRange: "₹1500-3000",
+        contact: "+91 8730123456"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Nagaland Express",
+        from: "Guwahati",
+        details: "Train to Dimapur, then shared taxi to Kohima and Khonoma",
+        frequency: "Tri-weekly service",
+        duration: "7-8 hours + 4-5 hours road journey",
+        fareRange: "₹400-900 + ₹1500-2000"
+      },
+      {
+        type: "taxi",
+        name: "Shared Sumo",
+        from: "Kohima",
+        details: "Direct shared taxi service to Khonoma",
+        frequency: "Daily morning departures",
+        duration: "1-1.5 hours",
+        fareRange: "₹300-500"
+      }
     ]
   },
   {
@@ -219,6 +327,42 @@ export const destinations: Destination[] = [
       "https://images.unsplash.com/photo-1472396961693-142e6e269027?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ],
+    accommodation: [
+      {
+        type: "guesthouse",
+        name: "Sandakphu Trekkers Hut",
+        description: "Basic trekker's accommodation with warm bedding and meals.",
+        priceRange: "₹800-1500",
+        contact: "+91 9832123456"
+      },
+      {
+        type: "homestay",
+        name: "Mountain View Homestay",
+        description: "Cozy homestay with stunning views and home-cooked meals.",
+        priceRange: "₹1200-2500",
+        contact: "+91 8348123456"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Darjeeling Himalayan Railway",
+        from: "New Jalpaiguri (NJP)",
+        details: "Toy train to Darjeeling, then jeep to Manebhanjan and trek to Sandakphu",
+        frequency: "Daily service",
+        duration: "7-8 hours + 4 hours jeep + 8-10 hours trek",
+        fareRange: "₹100-500 + ₹1500 + trekking costs"
+      },
+      {
+        type: "jeep",
+        name: "Shared Land Rover",
+        from: "Manebhanjan",
+        details: "4x4 vehicle service to Sandakphu summit",
+        frequency: "Daily departures",
+        duration: "4-5 hours",
+        fareRange: "₹3000-5000 (full jeep)"
+      }
     ]
   },
   {
@@ -232,6 +376,42 @@ export const destinations: Destination[] = [
       "https://images.unsplash.com/photo-1501785888041-af3ef285b470?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1472396961693-142e6e269027?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80",
       "https://images.unsplash.com/photo-1506197603052-3cc9c3a201bd?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&q=80"
+    ],
+    accommodation: [
+      {
+        type: "hotel",
+        name: "Haritha Resort",
+        description: "Government-run resort with clean rooms and basic amenities.",
+        priceRange: "₹1500-3000",
+        contact: "+91 8555245755"
+      },
+      {
+        type: "campsite",
+        name: "Canyon Camping",
+        description: "Riverside camping experience with breathtaking gorge views.",
+        priceRange: "₹800-1200",
+        contact: "+91 9876543210"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Rayalaseema Express",
+        from: "Bangalore/Chennai",
+        details: "Train to Jammalamadugu, then local transport to Gandikota",
+        frequency: "Daily service",
+        duration: "8-10 hours + 1 hour local transport",
+        fareRange: "₹400-1000 + ₹300-500"
+      },
+      {
+        type: "bus",
+        name: "APSRTC Bus",
+        from: "Kadapa/Jammalamadugu",
+        details: "Bus to Gandikota village",
+        frequency: "Limited service",
+        duration: "2-3 hours from Kadapa",
+        fareRange: "₹100-200"
+      }
     ]
   },
   {
@@ -246,6 +426,42 @@ export const destinations: Destination[] = [
       "/images/mechuka3.jpg",
       "/images/mechuka4.jpg",
       "/images/mechuka5.jpg"
+    ],
+    accommodation: [
+      {
+        type: "homestay",
+        name: "Mechuka Valley Homestay",
+        description: "Authentic tribal homestay with cultural experiences and local food.",
+        priceRange: "₹800-1500",
+        contact: "+91 9436701234"
+      },
+      {
+        type: "guesthouse",
+        name: "Circuit House",
+        description: "Government guesthouse with basic facilities and mountain views.",
+        priceRange: "₹1200-2000",
+        contact: "+91 3791222555"
+      }
+    ],
+    transport: [
+      {
+        type: "train",
+        name: "Arunachal Express",
+        from: "Guwahati",
+        details: "Train to Naharlagun, then shared taxi to Along and Mechuka",
+        frequency: "Daily service",
+        duration: "12-14 hours + 10-12 hours road journey",
+        fareRange: "₹400-900 + ₹2500-3500"
+      },
+      {
+        type: "flight",
+        name: "Alliance Air",
+        from: "Guwahati/Kolkata",
+        details: "Flight to Pasighat, then road journey to Mechuka",
+        frequency: "Bi-weekly service",
+        duration: "2 hours flight + 6-7 hours road journey",
+        fareRange: "₹4000-8000 + ₹2500-3000"
+      }
     ]
   },
   {
