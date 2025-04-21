@@ -1,13 +1,17 @@
 
 import React, { useState, useEffect } from 'react';
 import { states, getDestinationsByState } from '@/data/destinations';
-import DestinationCard from './DestinationCard';
-import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Filter, Map, Search, Heart, DownloadCloud } from 'lucide-react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { toast } from 'sonner';
+
+import DestinationCard from './DestinationCard';
+import StateFilter from './state/StateFilter';
+import StateSearchBar from './state/StateSearchBar';
+import StateToolbar from './state/StateToolbar';
+import StateEmptyView from './state/StateEmptyView';
 
 const StateGrid: React.FC = () => {
   const [selectedState, setSelectedState] = useState<string | null>(null);
@@ -60,17 +64,6 @@ const StateGrid: React.FC = () => {
     }
   };
   
-  const handleDownloadCode = () => {
-    toast.info("This website's code can be downloaded from GitHub", {
-      description: "Check README.md for instructions on running this project locally.",
-      duration: 8000,
-      action: {
-        label: "Learn More",
-        onClick: () => window.open("https://github.com/your-username/offbeat-travel-trove", "_blank")
-      },
-    });
-  };
-  
   useEffect(() => {
     setIsAnimating(false);
   }, [selectedState]);
@@ -89,97 +82,27 @@ const StateGrid: React.FC = () => {
           </p>
         </div>
         
-        <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={toggleSearch}
-              className="flex items-center gap-2"
-            >
-              <Search size={16} />
-              {showSearch ? "Hide Search" : "Search States"}
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              size="sm"
-              className="flex items-center gap-2"
-              onClick={() => setSelectedState(null)}
-              disabled={!selectedState}
-            >
-              <Filter size={16} />
-              {selectedState ? "Clear Filter" : "All States"}
-            </Button>
-          </div>
-          
-          <div className="flex items-center gap-2">
-            <Button 
-              variant="default" 
-              size="sm"
-              className="flex items-center gap-2 bg-primary hover:bg-primary/90 text-white"
-              onClick={handleDownloadGuide}
-              disabled={!selectedState}
-            >
-              <DownloadCloud size={16} />
-              Download Travel Guide
-            </Button>
-            
-            <Button
-              variant="ghost"
-              size="sm"
-              className="text-gray-500 hover:text-primary"
-              onClick={handleAddToWishlist}
-            >
-              <Heart size={16} className="mr-2" />
-              Add to Wishlist
-            </Button>
-          </div>
-        </div>
+        <StateToolbar 
+          selectedState={selectedState}
+          showSearch={showSearch}
+          toggleSearch={toggleSearch}
+          handleAddToWishlist={handleAddToWishlist}
+          handleDownloadGuide={handleDownloadGuide}
+          clearSelection={() => setSelectedState(null)}
+        />
         
-        <AnimatePresence>
-          {showSearch && (
-            <motion.div 
-              initial={{ height: 0, opacity: 0 }}
-              animate={{ height: 'auto', opacity: 1 }}
-              exit={{ height: 0, opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mb-6 overflow-hidden"
-            >
-              <Input
-                type="text"
-                placeholder="Search for a state..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="max-w-md mx-auto"
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        <StateSearchBar 
+          showSearch={showSearch}
+          searchQuery={searchQuery}
+          setSearchQuery={setSearchQuery}
+        />
         
-        <div className="flex flex-wrap justify-center gap-2 sm:gap-3 mb-12">
-          {filteredStates.map((state) => (
-            <motion.button
-              key={state}
-              onClick={() => handleStateClick(state)}
-              className={cn(
-                "px-4 py-2 rounded-full text-sm font-medium transition-all duration-300",
-                "border hover:shadow-md focus:outline-none focus:ring-2 focus:ring-primary/30",
-                selectedState === state
-                  ? "bg-primary text-white border-transparent"
-                  : "bg-white text-gray-800 border-gray-200 hover:border-primary/50 hover:scale-105"
-              )}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-            >
-              {state}
-            </motion.button>
-          ))}
-          
-          {filteredStates.length === 0 && (
-            <p className="text-gray-500 italic mt-4">No states found matching "{searchQuery}"</p>
-          )}
-        </div>
+        <StateFilter 
+          filteredStates={filteredStates}
+          selectedState={selectedState}
+          searchQuery={searchQuery}
+          handleStateClick={handleStateClick}
+        />
         
         <AnimatePresence mode="wait">
           <motion.div 
@@ -208,41 +131,7 @@ const StateGrid: React.FC = () => {
             ))}
             
             {!selectedState && !isAnimating && (
-              <motion.div 
-                className="col-span-full flex flex-col items-center justify-center text-center p-8 rounded-xl"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.5 }}
-              >
-                <div className="mb-6 p-4 rounded-full bg-primary/10 animate-float">
-                  <motion.div
-                    animate={{ 
-                      scale: [1, 1.1, 1],
-                      rotate: [0, 5, 0, -5, 0],
-                    }}
-                    transition={{ duration: 5, repeat: Infinity }}
-                  >
-                    <Map className="h-12 w-12 text-primary" />
-                  </motion.div>
-                </div>
-                <h3 className="text-xl font-bold mb-2">Select a state above</h3>
-                <p className="text-gray-600 dark:text-gray-300 max-w-md">
-                  Choose from the list of states to see offbeat destinations in that region.
-                  Each state has its own unique hidden gems waiting to be explored!
-                </p>
-                <Button 
-                  variant="outline" 
-                  size="lg" 
-                  className="mt-6 group"
-                  onClick={() => {
-                    const randomState = states[Math.floor(Math.random() * states.length)];
-                    setSelectedState(randomState);
-                  }}
-                >
-                  <span className="mr-2 group-hover:translate-x-1 transition-transform">Surprise Me</span>
-                  <span className="group-hover:rotate-45 transition-transform inline-block">→</span>
-                </Button>
-              </motion.div>
+              <StateEmptyView setSelectedState={setSelectedState} />
             )}
           </motion.div>
         </AnimatePresence>
